@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <bit_string.h>
+#include <debug_utils.h>
 
 
 // Debug utilities
 bs_status bs_print(bit_string* bs)
 {
+    bs_status status = BS_GENERAL_ERROR;
+
+
     if (bs == NULL)
     {
-        return BS_INVALID_PARAMS;
+        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        status = BS_INVALID_PARAMS;
+        goto end;
     }
 
     printf("======== Bit String ========\n");
@@ -33,7 +39,25 @@ bs_status bs_print(bit_string* bs)
 
     printf("\n============================\n");
 
-    return BS_OK;
+    status = BS_OK;
+
+end:
+    return status;
+}
+
+// Internal utilities
+uint8_t _binary_repr_size(uint32_t n)
+{
+    uint8_t res = 0;
+
+
+    while(n)
+    {
+        n >>= 1;
+        res++;
+    }
+
+    return res;
 }
 
 // General utilites
@@ -44,12 +68,16 @@ bs_status bs_set_n(bit_string* bs, bit b, uint32_t len)
 
     if (bs == NULL)
     {
-        return BS_INVALID_PARAMS;
+        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        status = BS_INVALID_PARAMS;
+        goto end;
     }
 
     if (bs->bit_size - bs->_index < len)
     {
-        return BS_OUT_OF_BOUNDS;
+        LOG_ERROR_INTERNAL("Not enough space, free space %d, required space %d", bs->bit_size - bs->_index, len);
+        status = BS_OUT_OF_BOUNDS;
+        goto end;
     }
 
     for (uint32_t i = 0; i < len; ++i)
@@ -66,35 +94,104 @@ bs_status bs_set_n(bit_string* bs, bit b, uint32_t len)
 
     bs->_index += len;
 
-    return BS_OK;
+    status = BS_OK;
+
+end:
+    return status;
+}
+
+bs_status bs_put_number(bit_string* bs, uint32_t number, uint8_t fixed_size)
+{
+    bs_status status            = BS_GENERAL_ERROR;
+    uint8_t number_size_bits    = 0;
+    uint8_t padding             = 0;
+
+
+    if (bs == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        status = BS_INVALID_PARAMS;
+        goto end;
+    }
+
+    number_size_bits = _binary_repr_size(number);
+    LOG_INT(number_size_bits);
+
+    if (fixed_size < number_size_bits)
+    {
+        LOG_ERROR_INTERNAL("Invalid argument, required fixed size is smaller than the actual number size, fixed size %d, actual size %d", fixed_size, number_size_bits);
+        status = BS_INVALID_PARAMS;
+        goto end;
+    }
+
+    padding = fixed_size - number_size_bits;
+    LOG_INT(padding);
+
+    status = bs_set_n(bs, OFF, padding);
+
+    if (status != BS_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to set %d padding bits to zero with status %d", padding, status);
+        goto end;
+    }
+
+    for (uint32_t i = 0; i < number_size_bits; ++i)
+    {
+        if (number & (1 << (number_size_bits - 1 - i)))
+        {
+            BITSET(bs->data, bs->_index + i);
+        }
+        else
+        {
+            BITCLEAR(bs->data, bs->_index + i);
+        }
+    }
+
+    bs->_index += number_size_bits;
+
+    status = BS_OK;
+
+end:
+    return status;
 }
 
 bs_status bs_alloc(bit_string* bs, uint32_t bit_count)
 {
+    bs_status status = BS_GENERAL_ERROR;
+
+
     if (bs == NULL)
     {
-        return BS_INVALID_PARAMS;
+        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        status = BS_INVALID_PARAMS;
+        goto end;
     }
 
-    bs->data = malloc(BITNBYTES(bit_count));
+    bs->data = malloc(BITNSLOTS(bit_count));
 
     if (bs->data == NULL)
     {
-        return BS_ALLOC_FAILED;
+        LOG_ERROR_INTERNAL("Failed to allocate %d bytes for the required %d bits", BITNSLOTS(bit_count), bit_count);
+        status = BS_ALLOC_FAILED;
+        goto end;
     }
 
-    bs->alloc_size = BITNBYTES(bit_count);
+    bs->alloc_size = BITNSLOTS(bit_count);
     bs->bit_size = bit_count;
     bs->_index = 0;
-    memset(bs->data, 0, BITNBYTES(bit_count));
+    memset(bs->data, 0, BITNSLOTS(bit_count));
 
-    return BS_OK;
+    status = BS_OK;
+
+end:
+    return status;
 }
 
 void bs_dealloc(bit_string* bs)
 {
     if (bs == NULL)
     {
+        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
         return;
     }
 
@@ -130,6 +227,15 @@ void bit_string_tests()
     bs_set_n(&bs, OFF, 4);
     bs_set_n(&bs, ON, 5);
     bs_set_n(&bs, OFF, 6);
+
+    bs_print(&bs);
+    bs_dealloc(&bs);
+
+    // 3
+    bs_alloc(&bs, 21);
+    bs_print(&bs);
+
+    bs_put_number(&bs, 3, 4);
 
     bs_print(&bs);
     bs_dealloc(&bs);

@@ -12,8 +12,6 @@
 #define BITTEST(a, b)   ((a)[BITSLOT(b)] & BITMASK(b))
 #define BITNSLOTS(nb)   ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
-#define BITNBYTES(nb)   (BITNSLOTS(nb) + (nb % CHAR_BIT ? 1 : 0))   // number of bytes required to store n bits
-
 // General definitions
 typedef enum _bit
 {
@@ -39,6 +37,7 @@ typedef struct _bit_string
 } bit_string;
 
 bs_status bs_set_n(bit_string* bs, bit b, uint32_t bit_count);
+bs_status bs_put_number(bit_string* bs, uint32_t number, uint8_t pad_count);
 bs_status bs_alloc(bit_string* bs, uint32_t bit_count);
 void bs_dealloc(bit_string* bs);
 bs_status bs_print(bit_string* bs);
