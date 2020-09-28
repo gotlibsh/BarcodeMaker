@@ -5,7 +5,7 @@ include(CTest)
 enable_testing()
 
 include_directories(include/)
-add_executable(BarcodeMaker src/main.c src/bit_string.c)
+add_executable(BarcodeMaker src/main.c src/bit_string.c src/qr_encode.c src/character_capacity_table.c)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
