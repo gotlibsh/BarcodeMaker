@@ -4,19 +4,6 @@
 #include <stdint.h>
 #include <bit_string.h>
 
-// Debug utilites
-#if DEBUG
-#define LOG_START_FUNC          printf("Starting function %s...", __FUNC__)
-#define LOG_END_FUNC            printf("Finished function %s...", __FUNC__)
-#define LOG_INT(x)              printf(#x"=%d", x);
-#define LOG_ERROR(msg, ...)     printf(msg "\n", ##__VA_ARGS__)
-#else
-#define LOG_START_FUNC
-#define LOG_END_FUNC
-#define LOG_INT(x)
-#define LOG_ERROR(msg, ...)     printf(msg "\n", ##__VA_ARGS__)
-#endif
-
 // General utilities
 #define IS_NUMERIC(x)           (x >= 0 && x <= 9)
 #define IS_ISO_8859_1(x)        ((x >= 32 && x <= 126) || (x >= 160 && x <= 255))
@@ -27,6 +14,7 @@ typedef enum _qr_status
     QR_OK = 0,
     QR_GENERAL_ERROR,
     QR_INVALID_PARAMS,
+    QR_BITSTRING_ERROR,
 } qr_status;
 
 typedef enum _qr_correction_level
