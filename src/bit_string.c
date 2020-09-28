@@ -33,7 +33,7 @@ bs_status bs_print(bit_string* bs)
 
     printf("\n============================\n");
 
-    return BS_SUCCESS;
+    return BS_OK;
 }
 
 // General utilites
@@ -66,7 +66,7 @@ bs_status bs_set_n(bit_string* bs, bit b, uint32_t len)
 
     bs->_index += len;
 
-    return BS_SUCCESS;
+    return BS_OK;
 }
 
 bs_status bs_alloc(bit_string* bs, uint32_t bit_count)
@@ -88,7 +88,7 @@ bs_status bs_alloc(bit_string* bs, uint32_t bit_count)
     bs->_index = 0;
     memset(bs->data, 0, BITNBYTES(bit_count));
 
-    return BS_SUCCESS;
+    return BS_OK;
 }
 
 void bs_dealloc(bit_string* bs)
