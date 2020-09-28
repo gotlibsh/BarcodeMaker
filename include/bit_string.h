@@ -23,7 +23,7 @@ typedef enum _bit
 
 typedef enum _bs_status
 {
-    BS_SUCCESS = 0,
+    BS_OK = 0,
     BS_GENERAL_ERROR,
     BS_INVALID_PARAMS,
     BS_OUT_OF_BOUNDS,
