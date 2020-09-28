@@ -1,7 +1,7 @@
 #ifndef _CHARACTER_CAPACITY_TABLE_H_
 #define _CHARACTER_CAPACITY_TABLE_H_
 
-#include <utils.h>
+#include <qr_utils.h>
 
 qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
 {
