@@ -4,7 +4,8 @@ project(BarcodeMaker VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(BarcodeMaker src/main.c)
+include_directories(include/)
+add_executable(BarcodeMaker src/main.c src/bit_string.c)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
