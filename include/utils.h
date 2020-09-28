@@ -2,7 +2,20 @@
 #define _UTILS_H_
 
 #include <stdint.h>
+#include <bit_string.h>
 
+// Debug utilites
+#if DEBUG
+#define LOG_START_FUNC          printf("Starting function %s...", __FUNC__)
+#define LOG_END_FUNC            printf("Finished function %s...", __FUNC__)
+#define LOG_INT(x)              printf(#x"=%d", x);
+#else
+#define LOG_START_FUNC
+#define LOG_END_FUNC
+#define LOG_INT(x)
+#endif
+
+// General utilities
 #define IS_NUMERIC(x)           (x >= 0 && x <= 9)
 #define IS_ISO_8859_1(x)        ((x >= 32 && x <= 126) || (x >= 160 && x <= 255))
 #define IS_ALPHA_NUMERIC(x)     (IS_ISO_8859_1(x))
@@ -84,7 +97,7 @@ typedef struct _qr_encode_ctx
     qr_version              version;
     qr_encoding_mode        mode;
     uint16_t                character_count;
-    uint8_t                 data;
+    bit_string              data;
 } qr_encode_ctx;
 
 #endif
