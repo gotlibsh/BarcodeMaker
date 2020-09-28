@@ -6,10 +6,10 @@
 qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
 {
     [QR_VERSION_1] =    {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
-                            41,                 2,                      3,              4,
-                            34,                 2,                      3,              4,
-                            27,                 2,                      3,              4,
-                            17,                 2,                      3,              4,
+                            41,	                25, 	                17,         	10,
+                            34,	                20, 	                14,         	8,
+                            27,	                16, 	                11,         	7,
+                            17,	                10, 	                7,              4,
                         },
     [QR_VERSION_2] =    {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
                             77,	                47,	                    32,	            20,
