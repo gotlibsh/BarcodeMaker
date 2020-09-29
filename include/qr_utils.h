@@ -1,10 +1,14 @@
-#ifndef _UTILS_H_
-#define _UTILS_H_
+#ifndef _QR_UTILS_H_
+#define _QR_UTILS_H_
 
 #include <stdint.h>
 #include <bit_string.h>
 
 // General utilities
+typedef uint8_t bool;
+#define true    (1)
+#define false   (0)
+
 #define IS_NUMERIC(x)           (x >= 0 && x <= 9)
 #define IS_ISO_8859_1(x)        ((x >= 32 && x <= 126) || (x >= 160 && x <= 255))
 #define IS_ALPHA_NUMERIC(x)     (IS_ISO_8859_1(x))
@@ -15,6 +19,7 @@ typedef enum _qr_status
     QR_GENERAL_ERROR,
     QR_INVALID_PARAMS,
     QR_BITSTRING_ERROR,
+    QR_ENCODING_ERROR,
 } qr_status;
 
 typedef enum _qr_correction_level

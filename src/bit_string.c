@@ -25,7 +25,7 @@ bs_status bs_print(bit_string* bs)
 
     printf("bitstring:      ");
 
-    for (uint32_t i = 0; i < bs->bit_size; ++i)
+    for (uint32_t i = 0; i < bs->_index; ++i)
     {
         if (BITTEST(bs->data, i))
         {
@@ -46,7 +46,7 @@ end:
 }
 
 // Internal utilities
-uint8_t _binary_repr_size(uint32_t n)
+uint8_t _binary_repr_size(uint64_t n)
 {
     uint8_t res = 0;
 
@@ -68,7 +68,7 @@ bs_status bs_set_n(bit_string* bs, bit b, uint32_t len)
 
     if (bs == NULL)
     {
-        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        LOG_ERROR_INTERNAL("Invalid arguments, null argument");
         status = BS_INVALID_PARAMS;
         goto end;
     }
@@ -100,7 +100,7 @@ end:
     return status;
 }
 
-bs_status bs_put_number(bit_string* bs, uint32_t number, uint8_t fixed_size)
+bs_status bs_put_number(bit_string* bs, uint64_t number, uint8_t fixed_size)
 {
     bs_status status            = BS_GENERAL_ERROR;
     uint8_t number_size_bits    = 0;
@@ -114,13 +114,20 @@ bs_status bs_put_number(bit_string* bs, uint32_t number, uint8_t fixed_size)
         goto end;
     }
 
+    if (fixed_size > bs->bit_size - bs->_index)
+    {
+        LOG_ERROR_INTERNAL("Index out of bounds, required space %d, available space %d", fixed_size, bs->bit_size - bs->_index);
+        status = BS_OUT_OF_BOUNDS;
+        goto end;
+    }
+
     number_size_bits = _binary_repr_size(number);
     LOG_INT(number_size_bits);
 
     if (fixed_size < number_size_bits)
     {
-        LOG_ERROR_INTERNAL("Invalid argument, required fixed size is smaller than the actual number size, fixed size %d, actual size %d", fixed_size, number_size_bits);
-        status = BS_INVALID_PARAMS;
+        LOG_ERROR_INTERNAL("Index out of bounds, required fixed size is smaller than the actual number size, fixed size %d, actual size %d", fixed_size, number_size_bits);
+        status = BS_OUT_OF_BOUNDS;
         goto end;
     }
 
@@ -137,7 +144,7 @@ bs_status bs_put_number(bit_string* bs, uint32_t number, uint8_t fixed_size)
 
     for (uint32_t i = 0; i < number_size_bits; ++i)
     {
-        if (number & (1 << (number_size_bits - 1 - i)))
+        if (number & (1ULL << (number_size_bits - 1 - i)))
         {
             BITSET(bs->data, bs->_index + i);
         }
@@ -160,9 +167,9 @@ bs_status bs_alloc(bit_string* bs, uint32_t bit_count)
     bs_status status = BS_GENERAL_ERROR;
 
 
-    if (bs == NULL)
+    if (bs == NULL || bit_count == 0)
     {
-        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        LOG_ERROR_INTERNAL("Invalid arguments, bitstring 0x%08llx, bit_count %d", (uint64_t)bs, bit_count);
         status = BS_INVALID_PARAMS;
         goto end;
     }
@@ -200,43 +207,4 @@ void bs_dealloc(bit_string* bs)
     bs->alloc_size = 0;
     bs->bit_size = 0;
     bs->_index = 0;
-}
-
-void bit_string_tests()
-{
-    bit_string bs = {0};
-
-    // 1
-    bs_alloc(&bs, 10);
-    bs_print(&bs);
-
-    bs_set_n(&bs, OFF, 4);
-    bs_set_n(&bs, ON, 4);
-    bs_set_n(&bs, OFF, 2);
-
-    bs_print(&bs);
-    bs_dealloc(&bs);
-
-    // 2
-    bs_alloc(&bs, 21);
-    bs_print(&bs);
-
-    bs_set_n(&bs, ON, 1);
-    bs_set_n(&bs, OFF, 2);
-    bs_set_n(&bs, ON, 3);
-    bs_set_n(&bs, OFF, 4);
-    bs_set_n(&bs, ON, 5);
-    bs_set_n(&bs, OFF, 6);
-
-    bs_print(&bs);
-    bs_dealloc(&bs);
-
-    // 3
-    bs_alloc(&bs, 21);
-    bs_print(&bs);
-
-    bs_put_number(&bs, 3, 4);
-
-    bs_print(&bs);
-    bs_dealloc(&bs);
 }
