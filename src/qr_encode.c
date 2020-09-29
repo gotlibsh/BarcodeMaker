@@ -109,20 +109,6 @@ end:
     return status;
 }
 
-uint8_t qr_get_size_of_number_in_binary(uint64_t num)
-{
-    uint8_t res = 0;
-
-
-    while(num)
-    {
-        num >>= 1;
-        res++;
-    }
-
-    return res;
-}
-
 qr_status qr_add_character_count_indicator(qr_encode_ctx* ctx)
 {
     qr_status   status              = QR_GENERAL_ERROR;
@@ -269,6 +255,157 @@ void qr_deinit_ctx(qr_encode_ctx* ctx)
     memset(ctx, 0, sizeof(*ctx));
 }
 
+qr_status qr_encode_mode_numeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
+{
+    qr_status   status          = QR_GENERAL_ERROR;
+    bs_status   bs_status       = BS_GENERAL_ERROR;
+    uint32_t    single_group    = 0;
+
+
+    if (ctx == NULL || data == NULL || data_size == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    for (uint16_t i = 0; i+2 < data_size; i += 3)
+    {
+        single_group = data[i] * 100 + data[i+1] * 10 + data[i+2];
+
+        bs_status = bs_put_number(&ctx->data, single_group, 10);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to put group %d into the bitstring with status %d", i, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
+    }
+
+    if (data_size % 3 == 2)
+    {
+        single_group = data[data_size-2] * 10 + data[data_size-1];
+        bs_status = bs_put_number(&ctx->data, single_group, 7);
+    }
+    else if (data_size % 3 == 1)
+    {
+        single_group = data[data_size-1];
+        bs_status = bs_put_number(&ctx->data, single_group, 4);
+    }
+
+    if (bs_status != BS_OK)
+    {
+        LOG_ERROR("Failed to put last group into the bitstring with status %d", bs_status);
+        status = QR_BITSTRING_ERROR;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
+qr_status qr_encode_mode_alphanumeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
+{
+    qr_status status = QR_GENERAL_ERROR;
+
+
+    if (ctx == NULL || data == NULL || data_size == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
+qr_status qr_encode_mode_byte(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
+{
+    qr_status status = QR_GENERAL_ERROR;
+
+
+    if (ctx == NULL || data == NULL || data_size == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
+qr_status qr_encode_mode_kanji(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
+{
+    qr_status status = QR_GENERAL_ERROR;
+
+
+    if (ctx == NULL || data == NULL || data_size == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
+qr_status qr_encode_by_mode(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
+{
+    qr_status status = QR_GENERAL_ERROR;
+
+
+    if (ctx == NULL || data == NULL || data_size == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    switch (ctx->mode)
+    {
+    case QR_MODE_NUMERIC:
+        status = qr_encode_mode_numeric(ctx, data, data_size);
+        break;
+    case QR_MODE_ALPHANUMERIC:
+        status = qr_encode_mode_alphanumeric(ctx, data, data_size);
+        break;
+    case QR_MODE_BYTE:
+        status = qr_encode_mode_byte(ctx, data, data_size);
+        break;
+    case QR_MODE_KANJI:
+        status = qr_encode_mode_kanji(ctx, data, data_size);
+        break;
+    default:
+        LOG_ERROR("Unknown encoding mode %d", ctx->mode);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (status != QR_OK)
+    {
+        LOG_ERROR("Failed to encode the data in mode %d with status %d", ctx->mode, status);
+        status = QR_ENCODING_ERROR;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
 qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode)
 {
     qr_encode_ctx   ctx     = {0};
@@ -306,6 +443,13 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
+    status = qr_encode_by_mode(&ctx, data, data_size);
+
+    if (status != QR_OK)
+    {
+        // error
+    }
+
     status = QR_OK;
 
     // for testing purposes
@@ -316,19 +460,3 @@ end:
 
     return status;
 }
-
-void encoding_tests()
-{
-    uint8_t dummy[12] = "HELLO WORLD";
-
-    qr_encode_data(dummy, sizeof(dummy) - 1, QR_CORRECTION_LEVEL_L, QR_MODE_ALPHANUMERIC);
-}
-
-// Encoding steps:
-// 1: choose error correction level
-// 2: determine smallest version for the data
-// 3: start building the bit string:
-//    add mode indicator
-//    add character count indicator
-//    encode the data with the selected mode
-//    add padding
