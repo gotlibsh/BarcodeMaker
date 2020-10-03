@@ -436,6 +436,9 @@ end:
 
 qr_status qr_encode_mode_kanji(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
 {
+    return QR_NOT_IMPLEMENTED;
+
+    /*
     qr_status status = QR_GENERAL_ERROR;
 
 
@@ -450,6 +453,7 @@ qr_status qr_encode_mode_kanji(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_
 
 end:
     return status;
+    */
 }
 
 qr_status qr_encode_by_mode(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
