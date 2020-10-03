@@ -255,6 +255,16 @@ void qr_deinit_ctx(qr_encode_ctx* ctx)
     memset(ctx, 0, sizeof(*ctx));
 }
 
+static uint8_t _qr_ascii_to_numeric(char c)
+{
+    if (c >= '0' && c <= '9')
+    {
+        return c - '0';
+    }
+
+    return (uint8_t)-1;
+}
+
 qr_status qr_encode_mode_numeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
 {
     qr_status   status          = QR_GENERAL_ERROR;
@@ -271,7 +281,7 @@ qr_status qr_encode_mode_numeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t dat
 
     for (uint16_t i = 0; i+2 < data_size; i += 3)
     {
-        single_group = data[i] * 100 + data[i+1] * 10 + data[i+2];
+        single_group = _qr_ascii_to_numeric(data[i]) * 100 + _qr_ascii_to_numeric(data[i+1]) * 10 + _qr_ascii_to_numeric(data[i+2]);
 
         bs_status = bs_put_number(&ctx->data, single_group, 10);
 
@@ -285,12 +295,12 @@ qr_status qr_encode_mode_numeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t dat
 
     if (data_size % 3 == 2)
     {
-        single_group = data[data_size-2] * 10 + data[data_size-1];
+        single_group = _qr_ascii_to_numeric(data[data_size-2]) * 10 + _qr_ascii_to_numeric(data[data_size-1]);
         bs_status = bs_put_number(&ctx->data, single_group, 7);
     }
     else if (data_size % 3 == 1)
     {
-        single_group = data[data_size-1];
+        single_group = _qr_ascii_to_numeric(data[data_size-1]);
         bs_status = bs_put_number(&ctx->data, single_group, 4);
     }
 
@@ -307,9 +317,51 @@ end:
     return status;
 }
 
+static uint8_t _qr_ascii_to_alphanumeric(uint8_t c)
+{
+    if (c >= '0' && c <= '9')
+    {
+        return c - '0';
+    }
+    else if (c >= 'A' && c <= 'Z')
+    {
+        return c - 'A' + 10;
+    }
+    else
+    {
+        switch (c)
+        {
+        case ' ':
+            return 36;
+        case '$':
+            return 37;
+        case '%':
+            return 38;
+        case '*':
+            return 39;
+        case '+':
+            return 40;
+        case '-':
+            return 41;
+        case '.':
+            return 42;
+        case '/':
+            return 43;
+        case ':':
+            return 44;
+        default:
+            break;
+        }
+    }
+
+    return (uint8_t)-1;    
+}
+
 qr_status qr_encode_mode_alphanumeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
 {
-    qr_status status = QR_GENERAL_ERROR;
+    qr_status status        = QR_GENERAL_ERROR;
+    bs_status bs_status     = BS_GENERAL_ERROR;
+    uint32_t  single_group  = 0;
 
 
     if (ctx == NULL || data == NULL || data_size == 0)
@@ -317,6 +369,32 @@ qr_status qr_encode_mode_alphanumeric(qr_encode_ctx* ctx, uint8_t* data, uint16_
         LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
         status = QR_INVALID_PARAMS;
         goto end;
+    }
+
+    for (uint16_t i = 0; i+1 < data_size; i += 2)
+    {
+        single_group = _qr_ascii_to_alphanumeric(data[i]) * 45 + _qr_ascii_to_alphanumeric(data[i+1]);
+
+        bs_status = bs_put_number(&ctx->data, single_group, 11);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to put group %d into the bitstring with status %d", i, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
+    }
+
+    if (data_size % 2 == 1)
+    {
+        bs_status = bs_put_number(&ctx->data, _qr_ascii_to_alphanumeric(data[data_size-1]), 6);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to put last group into the bitstring with status %d", bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
     }
 
     status = QR_OK;
@@ -327,7 +405,8 @@ end:
 
 qr_status qr_encode_mode_byte(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size)
 {
-    qr_status status = QR_GENERAL_ERROR;
+    qr_status status    = QR_GENERAL_ERROR;
+    bs_status bs_status = BS_GENERAL_ERROR;
 
 
     if (ctx == NULL || data == NULL || data_size == 0)
@@ -335,6 +414,18 @@ qr_status qr_encode_mode_byte(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_s
         LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
         status = QR_INVALID_PARAMS;
         goto end;
+    }
+
+    for (uint16_t i = 0; i < data_size; ++i)
+    {
+        bs_status = bs_put_number(&ctx->data, data[i], 8);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to put byte at index %d into the bitstring with status %d", i, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
     }
 
     status = QR_OK;

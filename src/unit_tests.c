@@ -174,17 +174,86 @@ void test_encoding_mode_numeric()
     DECLARE_ENC_CTX();
 
     // positive flows
-    uint8_t test1[] = {1,2,3,4,5,6};
-    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, sizeof(test1));
+    // test numeric data that perfectly divides into groups of three
+    char test1[] = "123456";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test1));
 
-    qr_encode_mode_numeric(p_ctx, test1, sizeof(test1));
-    bs_print(&ctx.data);
+    assert(qr_encode_mode_numeric(p_ctx, test1, STR_SIZE(test1)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "00011110110111001000", STR_SIZE("00011110110111001000")));
     qr_deinit_ctx(p_ctx);
+
+    // test numeric data that includes a group of a single number at the end
+    char test2[] = "1234567";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test2));
+
+    assert(qr_encode_mode_numeric(p_ctx, test2, STR_SIZE(test2)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "000111101101110010000111", STR_SIZE("000111101101110010000111")));
+    qr_deinit_ctx(p_ctx);
+    
+    // test numeric data that includes a group of 2 numbers at the end
+    char test3[] = "12345678";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test3));
+
+    assert(qr_encode_mode_numeric(p_ctx, test3, STR_SIZE(test3)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "000111101101110010001001110", STR_SIZE("000111101101110010001001110")));
+    qr_deinit_ctx(p_ctx);
+
+    // test invalid paramters error
+    assert(qr_encode_mode_numeric(NULL, test3, sizeof(test3)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_numeric(p_ctx, NULL, sizeof(test3)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_numeric(p_ctx, test3, 0) == QR_INVALID_PARAMS);
+}
+
+void test_encoding_mode_alphanumeric()
+{
+    DECLARE_ENC_CTX();
+
+    // positive flows
+    // test encoding numbers
+    char test1[] = "1234567890";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test1));
+
+    assert(qr_encode_mode_alphanumeric(p_ctx, test1, STR_SIZE(test1)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data,
+                              "0000010111100010001011000111001110010100001100110010101",
+                              STR_SIZE("0000010111100010001011000111001110010100001100110010101")));
+    qr_deinit_ctx(p_ctx);
+
+    // test encoding even number of alphabet characters (divides perfectly into groups of 2)
+    char test2[] = "EVEN";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test2));
+
+    assert(qr_encode_mode_alphanumeric(p_ctx, test2, STR_SIZE(test2)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "0101001010101010001101", STR_SIZE("0101001010101010001101")));
+    qr_deinit_ctx(p_ctx);
+
+    // test encoding odd number of alphabet characters (has a last group of 1 character)
+    char test3[] = "ODD";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test3));
+
+    assert(qr_encode_mode_alphanumeric(p_ctx, test3, STR_SIZE(test3)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "10001000101001101", STR_SIZE("10001000101001101")));
+    qr_deinit_ctx(p_ctx);
+
+    // test encoding alphabet and numeric characters mixed up
+    char test4[] = "A1B2C3D4E5F6";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test4));
+
+    assert(qr_encode_mode_alphanumeric(p_ctx, test4, STR_SIZE(test4)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data,
+                              "001110000110011111000101000011111010010011010100111101101010101001",
+                              STR_SIZE("001110000110011111000101000011111010010011010100111101101010101001")));
+
+    // test invalid parameters error
+    assert(qr_encode_mode_alphanumeric(NULL, test4, STR_SIZE(test4)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_alphanumeric(p_ctx, NULL, STR_SIZE(test4)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_alphanumeric(p_ctx, test4, 0) == QR_INVALID_PARAMS);
 }
 
 void test_encoder()
 {
     test_encoding_mode_numeric();
+    test_encoding_mode_alphanumeric();
 }
 
 void main_tester()
