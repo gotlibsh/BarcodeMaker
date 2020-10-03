@@ -109,7 +109,7 @@ bs_status bs_put_number(bit_string* bs, uint64_t number, uint8_t fixed_size)
 
     if (bs == NULL)
     {
-        LOG_ERROR_INTERNAL("Invalid argument, null paramter");
+        LOG_ERROR_INTERNAL("Invalid argument, null parameter");
         status = BS_INVALID_PARAMS;
         goto end;
     }
