@@ -211,7 +211,7 @@ void test_encoding_mode_alphanumeric()
     // positive flows
     // test encoding numbers
     char test1[] = "1234567890";
-    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test1));
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_ALPHANUMERIC, STR_SIZE(test1));
 
     assert(qr_encode_mode_alphanumeric(p_ctx, test1, STR_SIZE(test1)) == QR_OK);
     assert(bitstring_compare2(&p_ctx->data,
@@ -221,7 +221,7 @@ void test_encoding_mode_alphanumeric()
 
     // test encoding even number of alphabet characters (divides perfectly into groups of 2)
     char test2[] = "EVEN";
-    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test2));
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_ALPHANUMERIC, STR_SIZE(test2));
 
     assert(qr_encode_mode_alphanumeric(p_ctx, test2, STR_SIZE(test2)) == QR_OK);
     assert(bitstring_compare2(&p_ctx->data, "0101001010101010001101", STR_SIZE("0101001010101010001101")));
@@ -229,7 +229,7 @@ void test_encoding_mode_alphanumeric()
 
     // test encoding odd number of alphabet characters (has a last group of 1 character)
     char test3[] = "ODD";
-    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test3));
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_ALPHANUMERIC, STR_SIZE(test3));
 
     assert(qr_encode_mode_alphanumeric(p_ctx, test3, STR_SIZE(test3)) == QR_OK);
     assert(bitstring_compare2(&p_ctx->data, "10001000101001101", STR_SIZE("10001000101001101")));
@@ -237,7 +237,7 @@ void test_encoding_mode_alphanumeric()
 
     // test encoding alphabet and numeric characters mixed up
     char test4[] = "A1B2C3D4E5F6";
-    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_NUMERIC, STR_SIZE(test4));
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_ALPHANUMERIC, STR_SIZE(test4));
 
     assert(qr_encode_mode_alphanumeric(p_ctx, test4, STR_SIZE(test4)) == QR_OK);
     assert(bitstring_compare2(&p_ctx->data,
@@ -250,10 +250,52 @@ void test_encoding_mode_alphanumeric()
     assert(qr_encode_mode_alphanumeric(p_ctx, test4, 0) == QR_INVALID_PARAMS);
 }
 
+void test_encoding_mode_byte()
+{
+    DECLARE_ENC_CTX();
+
+    // positive flows
+    // basic test
+    char test1[] = "1234";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_BYTE, STR_SIZE(test1));
+
+    assert(qr_encode_mode_byte(p_ctx, test1, STR_SIZE(test1)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data, "00110001001100100011001100110100", STR_SIZE("00110001001100100011001100110100")));
+    qr_deinit_ctx(p_ctx);
+
+    // test characters that don't appear in the numeric/alphanumeric set
+    char test2[] = "Hello there! is there anything new?!";
+    qr_init_ctx(p_ctx, QR_CORRECTION_LEVEL_L, QR_MODE_BYTE, STR_SIZE(test2));
+
+    assert(qr_encode_mode_byte(p_ctx, test2, STR_SIZE(test2)) == QR_OK);
+    assert(bitstring_compare2(&p_ctx->data,
+                              "010010000110010101101100011011000110111100100000"
+                              "011101000110100001100101011100100110010100100001"
+                              "001000000110100101110011001000000111010001101000"
+                              "011001010111001001100101001000000110000101101110"
+                              "011110010111010001101000011010010110111001100111"
+                              "001000000110111001100101011101110011111100100001",
+                              288));
+    qr_deinit_ctx(p_ctx);
+
+    // test invalid parameters error
+    assert(qr_encode_mode_byte(NULL, test2, STR_SIZE(test2)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_byte(p_ctx, NULL, STR_SIZE(test2)) == QR_INVALID_PARAMS);
+    assert(qr_encode_mode_byte(p_ctx, test2, 0) == QR_INVALID_PARAMS);
+}
+
+void test_encoding_mode_kanji()
+{
+    // test unimplemented error
+    assert(qr_encode_mode_kanji(NULL, NULL, 0) == QR_NOT_IMPLEMENTED);
+}
+
 void test_encoder()
 {
     test_encoding_mode_numeric();
     test_encoding_mode_alphanumeric();
+    test_encoding_mode_byte();
+    test_encoding_mode_kanji();
 }
 
 void main_tester()
