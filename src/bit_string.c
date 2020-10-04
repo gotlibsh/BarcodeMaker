@@ -208,3 +208,14 @@ void bs_dealloc(bit_string* bs)
     bs->bit_size = 0;
     bs->_index = 0;
 }
+
+uint32_t bs_len(bit_string* bs)
+{
+    if (bs == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid argument, null parameter");
+        return 0;
+    }
+
+    return bs->_index;
+}

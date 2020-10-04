@@ -155,11 +155,36 @@ void test_bitstring_put_number()
     assert(bs_put_number(NULL, 1, 1) == BS_INVALID_PARAMS);
 }
 
+void test_bitstring_len()
+{
+    DECLARE_BS(1);
+
+    // positive flows
+    bs_alloc(p_bs_1, 100);
+    assert(bs_put_number(p_bs_1, 123, 20) == BS_OK);
+    assert(bs_len(p_bs_1) == 20);
+    assert(bs_put_number(p_bs_1, 456, 20) == BS_OK);
+    assert(bs_len(p_bs_1) == 40);
+    assert(bs_set_n(p_bs_1, ON, 10) == BS_OK);
+    assert(bs_len(p_bs_1) == 50);
+    assert(bs_set_n(p_bs_1, ON, 40) == BS_OK);
+    assert(bs_len(p_bs_1) == 90);
+    assert(bs_set_n(p_bs_1, OFF, 5) == BS_OK);
+    assert(bs_len(p_bs_1) == 95);
+    assert(bs_set_n(p_bs_1, ON, 5) == BS_OK);
+    assert(bs_len(p_bs_1) == 100);
+    bs_dealloc(p_bs_1);
+
+    // negative test
+    assert(bs_len(NULL) == 0);
+}
+
 void test_bitstring()
 {
     test_bitstring_alloc();
     test_bitstring_set_n();
     test_bitstring_put_number();
+    test_bitstring_len();
 }
 
 /*************************************

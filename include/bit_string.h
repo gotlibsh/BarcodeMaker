@@ -38,6 +38,7 @@ typedef struct _bit_string
 
 bs_status bs_set_n(bit_string* bs, bit b, uint32_t bit_count);
 bs_status bs_put_number(bit_string* bs, uint64_t number, uint8_t fixed_size);
+uint32_t bs_len(bit_string* bs);
 bs_status bs_alloc(bit_string* bs, uint32_t bit_count);
 void bs_dealloc(bit_string* bs);
 bs_status bs_print(bit_string* bs);
