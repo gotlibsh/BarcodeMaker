@@ -501,10 +501,81 @@ end:
     return status;
 }
 
+qr_status qr_add_terminator_and_padding(qr_encode_ctx* ctx, uint16_t codewords_count)
+{
+    qr_status   status              = QR_GENERAL_ERROR;
+    bs_status   bs_status           = BS_GENERAL_ERROR;
+    uint16_t    terminator_length   = 0;
+    uint8_t     padding_bits        = 0;
+    uint8_t     padding_bytes_count = 0;
+    uint8_t     padding_bytes[]     = { 0b11101100, 0b00010001 };   // alternate padding bytes: 236, 17
+
+
+    if (ctx == NULL || codewords_count == 0)
+    {
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, codewords_count %d", (uint64_t)ctx, codewords_count);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    terminator_length = codewords_count * CHAR_BIT - bs_len(&ctx->data);
+
+    if (terminator_length > 4)
+    {
+        terminator_length = 4;
+    }
+    
+    if (terminator_length > 0)
+    {
+        bs_status = bs_set_n(&ctx->data, OFF, terminator_length);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to add terminator of length %d to the end of the bitstring with status %d", terminator_length, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
+    }
+
+    padding_bits = CHAR_BIT - (bs_len(&ctx->data) % CHAR_BIT);
+
+    if (padding_bits > 0)
+    {
+        bs_status = bs_set_n(&ctx->data, OFF, padding_bits);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to add %d padding zeroes to the end of the bitstring with status %d", padding_bits, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
+    }
+
+    padding_bytes_count = ((codewords_count * CHAR_BIT) - bs_len(&ctx->data)) / CHAR_BIT;
+
+    for (uint16_t i = 0; i < padding_bytes_count; ++i)
+    {
+        bs_status = bs_put_number(&ctx->data, padding_bytes[i%2], CHAR_BIT);
+
+        if (bs_status != BS_OK)
+        {
+            LOG_ERROR("Failed to add padding byte index %d to the end of the bitstring with status %d", i, bs_status);
+            status = QR_BITSTRING_ERROR;
+            goto end;
+        }
+    }
+    
+    status = QR_OK;
+
+end:
+    return status;
+}
+
 qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode)
 {
-    qr_encode_ctx   ctx     = {0};
-    qr_status       status  = QR_GENERAL_ERROR;
+    qr_encode_ctx   ctx                 = {0};
+    qr_status       status              = QR_GENERAL_ERROR;
+    uint16_t        req_codeword_count  = 0;
 
 
     if (data == NULL || data_size == 0)
@@ -542,7 +613,17 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
 
     if (status != QR_OK)
     {
-        // error
+        LOG_ERROR("Failed to encode the data with status %d", status);
+        goto end;
+    }
+
+    req_codeword_count = g_character_capacity_table[ctx.version].ec_codeword_count[ctx.correction_level];
+    status = qr_add_terminator_and_padding(&ctx, req_codeword_count);
+
+    if (status != QR_OK)
+    {
+        LOG_ERROR("Failed to add terminator and padding bytes with status %d", status);
+        goto end;
     }
 
     status = QR_OK;
