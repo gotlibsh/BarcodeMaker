@@ -92,6 +92,7 @@ typedef enum _qr_encoding_mode
 typedef struct _qr_version_properties
 {
     uint16_t    capacity_table[QR_CORRECTION_MAX][QR_MODE_MAX];
+    uint16_t    ec_codeword_count[QR_CORRECTION_MAX];
 } qr_version_properties;
 
 typedef struct _qr_encode_ctx
