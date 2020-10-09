@@ -12,9 +12,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 27,	                16, 	                11,         	7,
                                 17,	                10, 	                7,              4,
                             },
-                            {   // L                // M                    // Q            // H
-                                19,                 16,                     13,             9
-                            }
                         },
     [QR_VERSION_2] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -23,9 +20,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 48,	                29,	                    20,	            12,
                                 34,	                20,	                    14,	            8,
                             },
-                            {   // L                // M                    // Q            // H
-                                34,                 28,                     22,             16
-                            }
                         },
     [QR_VERSION_3] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -34,9 +28,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 77,              	47,                 	32,         	20,
                                 58,              	35,                 	24,         	15,
                             },
-                            {   // L                // M                    // Q            // H
-                                55,                 44,                     34,             26
-                            }
                         },
     [QR_VERSION_4] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -45,9 +36,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 111,                67,                  	46,         	28,
                                 82,             	50,                  	34,         	21,
                             },
-                            {   // L                // M                    // Q            // H
-                                80,                 64,                     48,             36
-                            }
                         },
     [QR_VERSION_5] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -56,9 +44,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 144,	            87,	                    60,	            37,
                                 106,	            64,	                    44,	            27,
                             },
-                            {   // L                // M                    // Q            // H
-                                108,                86,                     62,             46
-                            }
                         },
     [QR_VERSION_6] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -67,9 +52,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 178,            	108,                	74,     	    45,
                                 139,            	84	,                   58,     	    36,
                             },
-                            {   // L                // M                    // Q            // H
-                                136,                108,                    76,             60
-                            }
                         },
     [QR_VERSION_7] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -78,9 +60,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 207,            	125,                	86,     	    53,
                                 154,            	93	,                   64,     	    39,
                             },
-                            {   // L                // M                    // Q            // H
-                                156,                124,                    88,             66
-                            }
                         },
     [QR_VERSION_8] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -89,9 +68,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 259,            	157,                	108,            66,
                                 202,            	122,                	84,             52,
                             },
-                            {   // L                // M                    // Q            // H
-                                194,                154,                    110,            86
-                            }
                         },
     [QR_VERSION_9] =    {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -100,9 +76,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 312,            	189,                	130,            80,
                                 235,            	143,                	98,             60,
                             },
-                            {   // L                // M                    // Q            // H
-                                232,                182,                    132,            100
-                            }
                         },
     [QR_VERSION_10] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -111,9 +84,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 364,            	221,	                151,	        93,
                                 288,            	174,	                119,	        74,
                             },
-                            {   // L                // M                    // Q            // H
-                                274,                216,                    154,            122
-                            }
                         },
     [QR_VERSION_11] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -122,9 +92,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 427,	            259,	                177,	        109,
                                 331,	            200,	                137,	        85,
                             },
-                            {   // L                // M                    // Q            // H
-                                324,                254,                    180,            140
-                            }
                         },
     [QR_VERSION_12] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -133,9 +100,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 489,	            296,    	            203,	        125,
                                 374,	            227,    	            155,	        96,
                             },
-                            {   // L                // M                    // Q            // H
-                                370,                290,                    206,            158
-                            }
                         },
     [QR_VERSION_13] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -144,9 +108,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 580,                352,                    241,            149,
                                 427,                259,                    177,            109,
                             },
-                            {   // L                // M                    // Q            // H
-                                428,                334,                    244,            180
-                            }
                         },
     [QR_VERSION_14] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -155,9 +116,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 621,                376,                	258,	        159,
                                 468,                283,                	194,	        120,
                             },
-                            {   // L                // M                    // Q            // H
-                                461,                365,                    261,            197
-                            }
                         },
     [QR_VERSION_15] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -166,9 +124,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 703,	            426,	                292,        	180,
                                 530,	            321,	                220,        	136,
                             },
-                            {   // L                // M                    // Q            // H
-                                523,                415,                    295,            223
-                            }
                         },
     [QR_VERSION_16] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -177,9 +132,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 775,                470,	                322,	        198,
                                 602,                365,	                250,	        154,
                             },
-                            {   // L                // M                    // Q            // H
-                                589,                453,                    325,            253
-                            }
                         },
     [QR_VERSION_17] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -188,9 +140,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 876,                531,	                364,	        224,
                                 674,                408,	                280,	        173,
                             },
-                            {   // L                // M                    // Q            // H
-                                647,                507,                    367,            283
-                            }
                         },
     [QR_VERSION_18] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -199,9 +148,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 948,            	574,	                394,	        243,
                                 746,            	452,	                310,	        191,
                             },
-                            {   // L                // M                    // Q            // H
-                                721,                563,                    397,            313
-                            }
                         },
     [QR_VERSION_19] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -210,9 +156,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1063,	            644,	                442,	        272,
                                 813,	            493,	                338,	        208,
                             },
-                            {   // L                // M                    // Q            // H
-                                795,                627,                    445,            341
-                            }
                         },
     [QR_VERSION_20] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -221,9 +164,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1159,	            702,	                482,	        297,
                                 919,	            557,	                382,	        235,
                             },
-                            {   // L                // M                    // Q            // H
-                                861,                669,                    485,            385
-                            }
                         },
     [QR_VERSION_21] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -232,9 +172,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1224,	            742,	                509,	        314,
                                 969,	            587,	                403,	        248,
                             },
-                            {   // L                // M                    // Q            // H
-                                932,                714,                    512,            406
-                            }
                         },
     [QR_VERSION_22] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -243,9 +180,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1358,	            823,	                565,	        348,
                                 1056,	            640,	                439,	        270,
                             },
-                            {   // L                // M                    // Q            // H
-                                1006,               782,                    568,            442
-                            }
                         },
     [QR_VERSION_23] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -254,9 +188,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1468,           	890,                    611,	        376,
                                 1108,           	672,                    461,	        284,
                             },
-                            {   // L                // M                    // Q            // H
-                                1094,               860,                    614,            464
-                            }
                         },
     [QR_VERSION_24] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -265,9 +196,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1588,           	963,                    661,        	407,
                                 1228,           	744,                    511,        	315,
                             },
-                            {   // L                // M                    // Q            // H
-                                1174,               914,                    664,            514
-                            }
                         },
     [QR_VERSION_25] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -276,9 +204,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1718,	            1041,                   715,	        440,
                                 1286,	            779,                    535,	        330,
                             },
-                            {   // L                // M                    // Q            // H
-                                1276,               1000,                   718,            538
-                            }
                         },
     [QR_VERSION_26] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -287,9 +212,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1804,           	1094,	                751,	        462,
                                 1425,           	864,                    593,	        365,
                             },
-                            {   // L                // M                    // Q            // H
-                                1370,               1062,                   754,            596
-                            }
                         },
     [QR_VERSION_27] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -298,9 +220,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 1933,	            1172,                   805,	        496,
                                 1501,	            910,                    625,	        385,
                             },
-                            {   // L                // M                    // Q            // H
-                                1468,               1128,                   808,            628
-                            }
                         },
     [QR_VERSION_28] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -309,9 +228,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2085,           	1263,               	868,	        534,
                                 1581,           	958,                    658,	        405,
                             },
-                            {   // L                // M                    // Q            // H
-                                1531,               1193,                   871,            661
-                            }
                         },
     [QR_VERSION_29] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -320,9 +236,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2181,           	1322,               	908,            559,
                                 1677,           	1016,               	698,            430,
                             },
-                            {   // L                // M                    // Q            // H
-                                1631,               1267,                   911,            701
-                            }
                         },
     [QR_VERSION_30] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -331,9 +244,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2358,             	1429,               	982,            604,
                                 1782,             	1080,               	742,            457,
                             },
-                            {   // L                // M                    // Q            // H
-                                1725,               1373,                   985,            745
-                            }
                         },
     [QR_VERSION_31] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -342,9 +252,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2473,           	1499,	                1030,	        634,
                                 1897,           	1150,	                790,            486,
                             },
-                            {   // L                // M                    // Q            // H
-                                1843,               1455,                   1033,           793
-                            }
                         },
     [QR_VERSION_32] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -353,9 +260,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2670,           	1618,               	1112,           684,
                                 2022,           	1226,               	842,            518,
                             },
-                            {   // L                // M                    // Q            // H
-                                1955,               1541,                   1115,           845
-                            }
                         },
     [QR_VERSION_33] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -364,9 +268,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2805,	            1700,   	            1168,       	719,
                                 2157,	            1307,   	            898,	        553,
                             },
-                            {   // L                // M                    // Q            // H
-                                2071,               1631,                   1171,           901
-                            }
                         },
     [QR_VERSION_34] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -375,9 +276,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 2949,           	1787,               	1228,       	756,
                                 2301,           	1394,               	958,        	590,
                             },
-                            {   // L                // M                    // Q            // H
-                                2192,               1725,                   1231,           961
-                            }
                         },
     [QR_VERSION_35] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -386,9 +284,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3081,	            1867,	                1283,	        790,
                                 2361,	            1431,	                983,            605,
                             },
-                            {   // L                // M                    // Q            // H
-                                2306,               1812,                   1286,           986
-                            }
                         },
     [QR_VERSION_36] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -397,9 +292,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3244,	            1966,	                1351,	        832,
                                 2524,	            1530,	                1051,	        647,
                             },
-                            {   // L                // M                    // Q            // H
-                                2434,               1914,                   1354,           1054
-                            }
                         },
     [QR_VERSION_37] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -408,9 +300,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3417,	            2071,	                1423,	        876,
                                 2625,	            1591,	                1093,	        673,
                             },
-                            {   // L                // M                    // Q            // H
-                                2566,               1992,                   1426,           1096
-                            }
                         },
     [QR_VERSION_38] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -419,9 +308,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3599,           	2181,               	1499,	        923,
                                 2735,           	1658,               	1139,	        701,
                             },
-                            {   // L                // M                    // Q            // H
-                                2702,               2102,                   1502,           1142
-                            }
                         },
     [QR_VERSION_39] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -430,9 +316,6 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3791,	            2298,	                1579,	        972,
                                 2927,	            1774,	                1219,	        750,
                             },
-                            {   // L                // M                    // Q            // H
-                                2812,               2216,                   1582,           1222
-                            }
                         },
     [QR_VERSION_40] =   {
                             {   // numeric mode     // alphanumeric mode    // byte mode    // kanji mode
@@ -441,10 +324,2812 @@ qr_version_properties g_character_capacity_table[QR_VERSION_MAX] =
                                 3993,           	2420,	                1663,	        1024,
                                 3057,           	1852,	                1273,	        784,
                             },
-                            {   // L                // M                    // Q            // H
-                                2956,               2334,                   1666,           1276
-                            }
                         }
 };
+
+qr_ec_version_entry g_ec_table[QR_VERSION_MAX] = 
+{
+    [QR_VERSION_1] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 19,
+                .ec_codewords_per_block = 7,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 19,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 16,
+                .ec_codewords_per_block = 10,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 13,
+                .ec_codewords_per_block = 13,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 13,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 9,
+                .ec_codewords_per_block = 17,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 9,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_2] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 34,
+                .ec_codewords_per_block = 10,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 34,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 28,
+                .ec_codewords_per_block = 16,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 28,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 22,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 16,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_3] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 55,
+                .ec_codewords_per_block = 15,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 55,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 44,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 44,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 34,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 17,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 26,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 13,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_4] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 80,
+                .ec_codewords_per_block = 20,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 80,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 64,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 32,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 48,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 36,
+                .ec_codewords_per_block = 16,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 9,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_5] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 108,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 108,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 86,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 43,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 62,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 46,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 11,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 12,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_6] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 136,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 68,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 108,
+                .ec_codewords_per_block = 16,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 27,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 76,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 19,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 60,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_7] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 156,
+                .ec_codewords_per_block = 20,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 78,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 124,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 31,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 88,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 14,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 15,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 66,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 13,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 14,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_8] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 194,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 97,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 154,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 38,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 39,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 110,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 18,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 19,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 86,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 14,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 15,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_9] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 232,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 116,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 182,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 36,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 37,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 132,
+                .ec_codewords_per_block = 20,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 100,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 12,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 13,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_10] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 274,
+                .ec_codewords_per_block = 18,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 68,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 69,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 216,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 43,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 44,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 154,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 19,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 20,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 122,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_11] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 324,
+                .ec_codewords_per_block = 20,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 81,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 254,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 50,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 51,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 180,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 23,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 140,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 12,
+                    },
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 13,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_12] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 370,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 92,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 93,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 290,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 36,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 37,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 206,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 20,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 21,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 158,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 14,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 15,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_13] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 428,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 107,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 334,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 37,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 38,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 244,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 20,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 21,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 180,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 12,
+                        .codewords_per_block    = 11,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 12,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_14] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 461,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 116,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 365,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 40,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 41,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 261,
+                .ec_codewords_per_block = 20,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 197,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 12,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 13,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_15] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 523,
+                .ec_codewords_per_block = 22,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 87,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 88,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 415,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 41,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 42,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 295,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 223,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 12,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 13,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_16] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 589,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 98,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 99,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 453,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 45,
+                    },
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 46,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 325,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 15,
+                        .codewords_per_block    = 19,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 20,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 253,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_17] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 647,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 107,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 108,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 507,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 367,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 15,
+                        .codewords_per_block    = 23,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 283,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 14,
+                    },
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 15,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_18] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 721,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 120,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 121,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 563,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 9,
+                        .codewords_per_block    = 43,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 44,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 397,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 23,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 313,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 14,
+                    },
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 15,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_19] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 795,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 113,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 114,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 627,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 44,
+                    },
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 45,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 445,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 21,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 22,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 341,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 9,
+                        .codewords_per_block    = 13,
+                    },
+                    {
+                        .block_count            = 16,
+                        .codewords_per_block    = 14,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_20] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 861,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 107,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 108,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 669,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 41,
+                    },
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 42,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 485,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 15,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 385,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 15,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_21] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 932,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 116,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 117,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 714,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 42,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 512,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 23,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 406,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_22] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1006,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 111,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 112,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 782,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 568,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 16,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 442,
+                .ec_codewords_per_block = 24,
+                .groups =
+                {
+                    {
+                        .block_count            = 34,
+                        .codewords_per_block    = 13,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_23] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1094,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 121,
+                    },
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 122,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 860,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 614,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 464,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 16,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_24] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1174,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 117,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 118,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 914,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 45,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 46,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 664,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 16,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 514,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 30,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_25] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1276,
+                .ec_codewords_per_block = 26,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 106,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 107,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1000,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 718,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 22,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 538,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 22,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_26] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1370,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 114,
+                    },
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 115,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1062,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 754,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 28,
+                        .codewords_per_block    = 22,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 23,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 596,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 33,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_27] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1468,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 122,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 123,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1128,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 22,
+                        .codewords_per_block    = 45,
+                    },
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 46,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 808,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 8,
+                        .codewords_per_block    = 23,
+                    },
+                    {
+                        .block_count            = 26,
+                        .codewords_per_block    = 24,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 628,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 12,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 28,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_28] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1531,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 117,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 118,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1193,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 45,
+                    },
+                    {
+                        .block_count            = 23,
+                        .codewords_per_block    = 46,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 871,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 31,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 661,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 31,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_29] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1631,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 116,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 117,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1267,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 21,
+                        .codewords_per_block    = 45,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 46,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 911,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 23,
+                    },
+                    {
+                        .block_count            = 37,
+                        .codewords_per_block    = 24,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 701,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 26,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_30] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1735,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 5,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 116,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1373,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 985,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 15,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 25,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 745,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 23,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 25,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_31] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1843,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 3,
+                        .codewords_per_block    = 116,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1455,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 29,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1033,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 42,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 793,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 23,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 28,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_32] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 1955,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 0,
+                        .codewords_per_block    = 0,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1541,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 23,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1115,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 35,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 845,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 35,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_33] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2071,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 116,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1631,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 21,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1171,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 29,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 901,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 11,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 46,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_34] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2191,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 115,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 116,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1725,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 23,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1231,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 44,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 961,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 59,
+                        .codewords_per_block    = 16,
+                    },
+                    {
+                        .block_count            = 1,
+                        .codewords_per_block    = 17,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_35] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2306,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 12,
+                        .codewords_per_block    = 121,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 122,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1812,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 12,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 26,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1286,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 39,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 986,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 22,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 41,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_36] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2434,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 121,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 122,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1914,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 34,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1354,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 46,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 1054,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 2,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 64,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_37] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2566,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 17,
+                        .codewords_per_block    = 122,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 123,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 1992,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 29,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1426,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 49,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 1096,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 24,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 46,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_38] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2702,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 122,
+                    },
+                    {
+                        .block_count            = 18,
+                        .codewords_per_block    = 123,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 2102,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 13,
+                        .codewords_per_block    = 46,
+                    },
+                    {
+                        .block_count            = 32,
+                        .codewords_per_block    = 47,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1502,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 48,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 14,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 1142,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 42,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 32,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_39] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2812,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 20,
+                        .codewords_per_block    = 117,
+                    },
+                    {
+                        .block_count            = 4,
+                        .codewords_per_block    = 118,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 2216,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 40,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 7,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1582,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 43,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 22,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 1222,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 10,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 67,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+    [QR_VERSION_40] =
+    {
+        .correction_levels =
+        {
+            [QR_CORRECTION_LEVEL_L] =
+            {
+                .total_codewords_count  = 2956,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 19,
+                        .codewords_per_block    = 118,
+                    },
+                    {
+                        .block_count            = 6,
+                        .codewords_per_block    = 119,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_M] =
+            {
+                .total_codewords_count  = 2334,
+                .ec_codewords_per_block = 28,
+                .groups =
+                {
+                    {
+                        .block_count            = 18,
+                        .codewords_per_block    = 47,
+                    },
+                    {
+                        .block_count            = 31,
+                        .codewords_per_block    = 48,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_Q] =
+            {
+                .total_codewords_count  = 1666,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 34,
+                        .codewords_per_block    = 24,
+                    },
+                    {
+                        .block_count            = 34,
+                        .codewords_per_block    = 25,
+                    },
+                },
+            },
+            [QR_CORRECTION_LEVEL_H] =
+            {
+                .total_codewords_count  = 1276,
+                .ec_codewords_per_block = 30,
+                .groups =
+                {
+                    {
+                        .block_count            = 20,
+                        .codewords_per_block    = 15,
+                    },
+                    {
+                        .block_count            = 61,
+                        .codewords_per_block    = 16,
+                    },
+                },
+            },
+        },
+    },
+};
+
 
 #endif

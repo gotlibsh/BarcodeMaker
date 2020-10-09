@@ -5,6 +5,10 @@
 
 #define MODE_INDICATOR_FIXED_SIZE       (4)
 
+extern qr_version_properties g_character_capacity_table[];
+extern qr_ec_version_entry g_ec_table[];
+
+
 qr_status qr_print_encode_ctx(qr_encode_ctx* ctx)
 {
     qr_status status    = QR_GENERAL_ERROR;
@@ -40,7 +44,6 @@ end:
     return status;
 }
 
-extern qr_version_properties g_character_capacity_table[];
 qr_version qr_get_smallest_version(uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode)
 {
     qr_version version;
@@ -551,6 +554,8 @@ qr_status qr_add_terminator_and_padding(qr_encode_ctx* ctx, uint16_t codewords_c
         }
     }
 
+    // at this point, the bitstring is a multiple of 8 in length
+
     padding_bytes_count = ((codewords_count * CHAR_BIT) - bs_len(&ctx->data)) / CHAR_BIT;
 
     for (uint16_t i = 0; i < padding_bytes_count; ++i)
@@ -617,7 +622,7 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
-    req_codeword_count = g_character_capacity_table[ctx.version].ec_codeword_count[ctx.correction_level];
+    req_codeword_count = g_ec_table[ctx.version].correction_levels[ctx.correction_level].total_codewords_count;
     status = qr_add_terminator_and_padding(&ctx, req_codeword_count);
 
     if (status != QR_OK)

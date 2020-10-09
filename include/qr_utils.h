@@ -13,6 +13,8 @@ typedef uint8_t bool;
 #define IS_ISO_8859_1(x)        ((x >= 32 && x <= 126) || (x >= 160 && x <= 255))
 #define IS_ALPHA_NUMERIC(x)     (IS_ISO_8859_1(x))
 
+#define EC_MAX_GROUP_NUM        (2)
+
 typedef enum _qr_status
 {
     QR_OK = 0,
@@ -89,10 +91,26 @@ typedef enum _qr_encoding_mode
     QR_MODE_MAX
 } qr_encoding_mode;
 
+typedef struct _qr_ec_table_entry
+{
+    uint16_t total_codewords_count;
+    uint16_t ec_codewords_per_block;
+    
+    struct group_properties
+    {
+        uint16_t block_count;
+        uint16_t codewords_per_block;
+    } groups[EC_MAX_GROUP_NUM];
+} qr_ec_table_entry;
+
+typedef struct _qr_ec_version_entry
+{
+    qr_ec_table_entry correction_levels[QR_CORRECTION_MAX];
+} qr_ec_version_entry;
+
 typedef struct _qr_version_properties
 {
-    uint16_t    capacity_table[QR_CORRECTION_MAX][QR_MODE_MAX];
-    uint16_t    ec_codeword_count[QR_CORRECTION_MAX];
+    uint16_t            capacity_table[QR_CORRECTION_MAX][QR_MODE_MAX];
 } qr_version_properties;
 
 typedef struct _qr_encode_ctx
