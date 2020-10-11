@@ -315,12 +315,19 @@ void test_encoding_mode_kanji()
     assert(qr_encode_mode_kanji(NULL, NULL, 0) == QR_NOT_IMPLEMENTED);
 }
 
+void test_encoding_e2e()
+{
+    char test1[] = "HELLO WORLD";
+    assert(qr_encode_data(test1, STR_SIZE(test1), QR_CORRECTION_LEVEL_Q, QR_MODE_ALPHANUMERIC) == QR_OK);
+}
+
 void test_encoder()
 {
     test_encoding_mode_numeric();
     test_encoding_mode_alphanumeric();
     test_encoding_mode_byte();
     test_encoding_mode_kanji();
+    test_encoding_e2e();
 }
 
 void main_tester()
