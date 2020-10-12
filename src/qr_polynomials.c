@@ -387,7 +387,7 @@ end:
 p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
 {
     p_status    status = P_GENERAL_ERROR;
-    poly_t      current_res = {0}, next_res = {0};
+    poly_t      res = {0};
     poly_t      mul = {0};
     uint16_t    ith_multiplier = 1;
 
@@ -399,7 +399,7 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
         goto end;
     }
 
-    status = get_nth_generator_multiplier(&current_res, ith_multiplier);
+    status = get_nth_generator_multiplier(&res, ith_multiplier);
 
     if (status != P_OK)
     {
@@ -422,7 +422,7 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
             goto end;
         }
 
-        status = p_mul(&current_res, &mul, &next_res);
+        status = p_mul_in_place(&res, &mul);
 
         if (status != P_OK)
         {
@@ -432,38 +432,16 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
         }
 
         p_del(&mul);
-        p_del(&current_res);
-
-        current_res = next_res;
         ec_codewords_count--;
     }
     
-    *p = current_res;
+    *p = res;
 
     status = P_OK;
 
 end:
     return status;
 }
-
-/*
-p_status f()
-{
-    // prepare the message polynomial and the generator polynomial for long devision
-    poly_t message_p, generator_p;
-    poly_t message_p_temp, generator_p_temp;
-    int codewords;
-
-    // multiply the message polynomial x^n where n is the number of error correction codewords required
-    poly_t xn;
-    p_create(&xn, true, codewords);
-    E(&xn, 0) = 1;
-    p_mul(&message_p_temp, &message_p, &xn);
-
-    // multiply the generator polynomial by 
-
-}
-*/
 
 int main2(int argc, char* argv[])
 {
