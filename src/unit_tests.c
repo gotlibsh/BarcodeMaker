@@ -359,6 +359,45 @@ void test_poly_create()
     assert(p_create(&p, true, 0) == P_INVALID_PARAMS);
 }
 
+void test_poly_copy()
+{
+    poly_t src = {0}, dest = {0};
+
+    // positive flows
+    // test simple polynomial copy
+    assert(p_create(&src, false, 7, 7, 6, 5, 4, 3, 2, 1) == P_OK);
+    assert(p_copy(&dest, &src) == P_OK);
+    assert(TERMS(&dest) == 7);
+    assert(E(&dest, 0) == 7);
+    assert(E(&dest, 1) == 6);
+    assert(E(&dest, 2) == 5);
+    assert(E(&dest, 3) == 4);
+    assert(E(&dest, 4) == 3);
+    assert(E(&dest, 5) == 2);
+    assert(E(&dest, 6) == 1);
+    p_del(&src); p_del(&dest);
+
+    // test copy of zeroed polynomial
+    assert(p_create(&src, true, 10) == P_OK);
+    assert(p_copy(&dest, &src) == P_OK);
+    assert(TERMS(&dest) == 10);
+    assert(E(&dest, 0) == 0);
+    assert(E(&dest, 1) == 0);
+    assert(E(&dest, 2) == 0);
+    assert(E(&dest, 3) == 0);
+    assert(E(&dest, 4) == 0);
+    assert(E(&dest, 5) == 0);
+    assert(E(&dest, 6) == 0);
+    assert(E(&dest, 7) == 0);
+    assert(E(&dest, 8) == 0);
+    assert(E(&dest, 9) == 0);
+    p_del(&src); p_del(&dest);
+
+    // test invalid parameters error
+    assert(p_copy(NULL, &src) == P_INVALID_PARAMS);
+    assert(p_copy(&dest, NULL) == P_INVALID_PARAMS);
+}
+
 void test_poly_multiply()
 {
     poly_t p = {0}, q = {0}, pq = {0};
@@ -396,6 +435,36 @@ void test_poly_multiply()
     assert(p_mul(NULL, &q, &pq) == P_INVALID_PARAMS);
     assert(p_mul(&p, NULL, &pq) == P_INVALID_PARAMS);
     assert(p_mul(&p, &q, NULL) == P_INVALID_PARAMS);
+}
+
+void test_poly_multiply_in_place()
+{
+    poly_t out = {0}, multiplier = {0};
+
+    // positive tests
+    // same set of tests as in test_poly_multiply but adapted to in-place multiplication
+    assert(p_create(&out, false, 2, 1, 2) == P_OK);
+    assert(p_create(&multiplier, false, 2, 3, 4) == P_OK);
+    assert(p_mul_in_place(&out, &multiplier) == P_OK);
+    assert(TERMS(&out) == 3);
+    assert(E(&out, 0) == 3);
+    assert(E(&out, 1) == (4^6));
+    assert(E(&out, 2) == 8);
+    p_del(&out); p_del(&multiplier);
+    
+    assert(p_create(&out, false, 2, 7, 9) == P_OK);
+    assert(p_create(&multiplier, false, 3, 11, 13, 14) == P_OK);
+    assert(p_mul_in_place(&out, &multiplier) == P_OK);
+    assert(TERMS(&out) == 4);
+    assert(E(&out, 0) == 49);
+    assert(E(&out, 1) == 112);
+    assert(E(&out, 2) == 79);
+    assert(E(&out, 3) == 126);
+    p_del(&out); p_del(&multiplier);
+
+    // test invalid parameters error
+    assert(p_mul_in_place(NULL, &multiplier) == P_INVALID_PARAMS);
+    assert(p_mul_in_place(&out, NULL) == P_INVALID_PARAMS);
 }
 
 void test_poly_get_generator()
@@ -442,7 +511,9 @@ void test_poly_get_generator()
 void test_polynomials()
 {
     test_poly_create();
+    test_poly_copy();
     test_poly_multiply();
+    test_poly_multiply_in_place();
     test_poly_get_generator();
 }
 

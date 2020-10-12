@@ -30,7 +30,9 @@ void p_print(poly_t* p);
 void p_print_exp_notation(poly_t* p);
 p_status p_create(poly_t* p, bool zeroed, uint16_t terms_count, ...);
 void p_del(poly_t* p);
+p_status p_copy(poly_t* dest, poly_t* src);
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq);
+p_status p_mul_in_place(poly_t* out, poly_t* multiplier);
 p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count);
 
 #endif

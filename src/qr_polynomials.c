@@ -243,6 +243,37 @@ void p_del(poly_t* p)
     memset(p, 0, sizeof(poly_t));
 }
 
+p_status p_copy(poly_t* dest, poly_t* src)
+{
+    p_status status = P_GENERAL_ERROR;
+
+
+    if (dest == NULL || src == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, dest 0x%08llx, src 0x%08llx", (uint64_t)dest, (uint64_t)src);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    dest->degree = src->degree;
+    dest->coef = (int32_t*)malloc(TERMS(src) * sizeof(int32_t));
+
+    if (dest->coef == NULL)
+    {
+        LOG_ERROR_INTERNAL("Failed to allocate memory for the copy polynomial of size %d", TERMS(src));
+        status = P_OUT_OF_MEMORY;
+        goto end;
+    }
+
+    g_allocs++;
+    memcpy(dest->coef, src->coef, TERMS(src) * sizeof(int32_t));
+
+    status = P_OK;
+
+end:
+    return status;
+}
+
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
 {
     p_status status     = P_GENERAL_ERROR;
@@ -283,6 +314,46 @@ p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
     status = P_OK;
 
 end:
+    return status;
+}
+
+p_status p_mul_in_place(poly_t* out, poly_t* multiplier)
+{
+    p_status status  = P_GENERAL_ERROR;
+    poly_t   temp    = {0};
+    
+
+    if (out == NULL || multiplier == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, out 0x%08llx, multiplier 0x%08llx", (uint64_t)out, (uint64_t)multiplier);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    status = p_copy(&temp, out);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to copy the out polynomial into a temporary polynomial with status %d", status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    p_del(out);
+    status = p_mul(&temp, multiplier, out);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to perform polynomial multiplication with status %d", status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    status = P_OK;
+
+end:
+    p_del(&temp);
+
     return status;
 }
 
@@ -374,6 +445,25 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
 end:
     return status;
 }
+
+/*
+p_status f()
+{
+    // prepare the message polynomial and the generator polynomial for long devision
+    poly_t message_p, generator_p;
+    poly_t message_p_temp, generator_p_temp;
+    int codewords;
+
+    // multiply the message polynomial x^n where n is the number of error correction codewords required
+    poly_t xn;
+    p_create(&xn, true, codewords);
+    E(&xn, 0) = 1;
+    p_mul(&message_p_temp, &message_p, &xn);
+
+    // multiply the generator polynomial by 
+
+}
+*/
 
 int main2(int argc, char* argv[])
 {
