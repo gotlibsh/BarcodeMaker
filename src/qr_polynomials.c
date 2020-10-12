@@ -3,29 +3,9 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdint.h>
+#include <qr_polynomials.h>
 #include <debug_utils.h>
 
-
-#define DEGREE(p)   (p->degree)
-#define TERMS(p)    (DEGREE(p) + 1)
-
-typedef uint8_t bool;
-#define true    (1)
-#define false   (0)
-
-typedef enum _pol_status
-{
-    P_OK = 0,
-    P_GENERAL_ERROR,
-    P_INVALID_PARAMS,
-    P_OUT_OF_MEMORY,
-} p_status;
-
-typedef struct _poly_t
-{
-    uint32_t    degree;
-    int32_t*    coef;
-} poly_t;
 
 uint16_t g_log_table[] =
 {
@@ -306,7 +286,7 @@ end:
     return status;
 }
 
-p_status get_nth_generator_multiplier(poly_t* p, uint16_t n)
+static p_status get_nth_generator_multiplier(poly_t* p, uint16_t n)
 {
     p_status status = P_GENERAL_ERROR;
 
@@ -333,7 +313,7 @@ end:
     return status;
 }
 
-p_status get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
+p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
 {
     p_status    status = P_GENERAL_ERROR;
     poly_t      current_res = {0}, next_res = {0};
@@ -351,7 +331,11 @@ p_status get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
     status = get_nth_generator_multiplier(&current_res, ith_multiplier);
 
     if (status != P_OK)
-    {}
+    {
+        LOG_ERROR_INTERNAL("Failed to get generator multiplier (%d) with status %d", ith_multiplier, status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
     
     ith_multiplier++;
     
@@ -361,12 +345,20 @@ p_status get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
         ith_multiplier++;
 
         if (status != P_OK)
-        {}
+        {
+            LOG_ERROR_INTERNAL("Failed to get generator multiplier (%d) with status %d", ith_multiplier, status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
 
         status = p_mul(&current_res, &mul, &next_res);
 
         if (status != P_OK)
-        {}
+        {
+            LOG_ERROR_INTERNAL("Failed to multiply polynomials with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
 
         p_del(&mul);
         p_del(&current_res);
@@ -383,14 +375,16 @@ end:
     return status;
 }
 
-int main(int argc, char* argv[])
+int main2(int argc, char* argv[])
 {
     poly_t p = {0};
 
-    get_generator_polynomial(&p, argc == 2? atoi(argv[1]) : 8);
+    p_get_generator_polynomial(&p, argc == 2? atoi(argv[1]) : 8);
     p_print_exp_notation(&p);
 
     p_del(&p);
 
     printf("\nallocs %lld\n", g_allocs);
+
+    return 0;
 }

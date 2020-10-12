@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define DEBUG
+// #define DEBUG
 
 // Debug utilites
 #ifdef DEBUG

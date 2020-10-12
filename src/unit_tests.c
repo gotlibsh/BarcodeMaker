@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <qr_encode.h>
+#include <qr_polynomials.h>
 
 
 void _assert(bool expression, char* file, uint32_t line)
@@ -330,9 +331,125 @@ void test_encoder()
     test_encoding_e2e();
 }
 
+void test_poly_create()
+{
+    poly_t p = {0};
+
+    // positive flows
+    // test creation of zeroed polynomial
+    assert(p_create(&p, true, 5) == P_OK);
+    assert(E(&p, 0) == 0);
+    assert(E(&p, 1) == 0);
+    assert(E(&p, 2) == 0);
+    assert(E(&p, 3) == 0);
+    assert(E(&p, 4) == 0);
+    p_del(&p);
+
+    // test creation of polynomial with provided coefficients
+    assert(p_create(&p, false, 5, 1, 2, 3, 4, 5) == P_OK);
+    assert(E(&p, 0) == 1);
+    assert(E(&p, 1) == 2);
+    assert(E(&p, 2) == 3);
+    assert(E(&p, 3) == 4);
+    assert(E(&p, 4) == 5);
+    p_del(&p);
+
+    // test invalid parameters error
+    assert(p_create(NULL, false, 1, 1) == P_INVALID_PARAMS);
+    assert(p_create(&p, true, 0) == P_INVALID_PARAMS);
+}
+
+void test_poly_multiply()
+{
+    poly_t p = {0}, q = {0}, pq = {0};
+
+    // positive flows
+    // test simple multiplication
+    // (x + 2)(3x + 4) == 3x^2 + 4x + 6x + 8 == 3x^2 + (4^6)x + 8 == 3x^2 + 2x + 8
+    assert(p_create(&p, false, 2, 1, 2) == P_OK);
+    assert(p_create(&q, false, 2, 3, 4) == P_OK);
+    assert(p_mul(&p, &q, &pq) == P_OK);
+    assert(TERMS(&pq) == 3);
+    assert(E(&pq, 0) == 3);
+    assert(E(&pq, 1) == (4^6));
+    assert(E(&pq, 2) == 8);
+    p_del(&p); p_del(&q); p_del(&pq);
+
+    // test multiplication that requires to perform modulo (255)
+    // (7x + 9)(11x^2 + 13x + 14) == (a^198x + a^223)(a^238x^2 + a^104x + a^199)
+    // == a^(198+238 % 255)x^3 + a^(198+104 % 255)x^2 + a^(198+199 % 255)x + a^(223+238 % 255)x^2 + a^(223+104 % 255)x + a^(223+199 % 255)
+    // == a^181x^3 + (a^47 + a^206)x^2 + (a^142 + a^72)x + a^167
+    // == 49x^3 (35^83)x^2 + (42^101)x + 126
+    // == 49x^3 + 112x^2 + 79x + 126
+    // final coefficients: 49, 112, 79, 126
+    assert(p_create(&p, false, 2, 7, 9) == P_OK);
+    assert(p_create(&q, false, 3, 11, 13, 14) == P_OK);
+    assert(p_mul(&p, &q, &pq) == P_OK);
+    assert(TERMS(&pq) == 4);
+    assert(E(&pq, 0) == 49);
+    assert(E(&pq, 1) == 112);
+    assert(E(&pq, 2) == 79);
+    assert(E(&pq, 3) == 126);
+    p_del(&p); p_del(&q); p_del(&pq);
+
+    // test invalid parameters error
+    assert(p_mul(NULL, &q, &pq) == P_INVALID_PARAMS);
+    assert(p_mul(&p, NULL, &pq) == P_INVALID_PARAMS);
+    assert(p_mul(&p, &q, NULL) == P_INVALID_PARAMS);
+}
+
+void test_poly_get_generator()
+{
+    poly_t p = {0};
+
+    // positive tests
+    // test generator polynomial for 2 codewords, expected: x^2 + 3x + 2
+    assert(p_get_generator_polynomial(&p, 2) == P_OK);
+    assert(TERMS(&p) == 3);
+    assert(E(&p, 0) == 1);
+    assert(E(&p, 1) == 3);
+    assert(E(&p, 2) == 2);
+    p_del(&p);
+
+    // test generator polynomial for 15 codewords
+    // expected: x^15 + 29x^14 + 196x^13 + 111x^12 + 163x^11 + 112x^10 + 74x^9 + 10x^8 + 105x^7 + 105x^6 + 139x^5 + 132x^4 + 151x^3 + 32x^2 + 134x + 26
+    // calculated at: https://www.thonky.com/qr-code-tutorial/generator-polynomial-tool?degree=15 and translated from alpha notation to integer notation
+    assert(p_get_generator_polynomial(&p, 15) == P_OK);
+    assert(TERMS(&p) == 16);
+    assert(E(&p, 0) == 1);
+    assert(E(&p, 1) == 29);
+    assert(E(&p, 2) == 196);
+    assert(E(&p, 3) == 111);
+    assert(E(&p, 4) == 163);
+    assert(E(&p, 5) == 112);
+    assert(E(&p, 6) == 74);
+    assert(E(&p, 7) == 10);
+    assert(E(&p, 8) == 105);
+    assert(E(&p, 9) == 105);
+    assert(E(&p, 10) == 139);
+    assert(E(&p, 11) == 132);
+    assert(E(&p, 12) == 151);
+    assert(E(&p, 13) == 32);
+    assert(E(&p, 14) == 134);
+    assert(E(&p, 15) == 26);
+    p_del(&p);
+
+    // test invalid parameters error
+    assert(p_get_generator_polynomial(NULL, 5) == P_INVALID_PARAMS);
+    assert(p_get_generator_polynomial(&p, 0) == P_INVALID_PARAMS);
+}
+
+void test_polynomials()
+{
+    test_poly_create();
+    test_poly_multiply();
+    test_poly_get_generator();
+}
+
 void main_tester()
 {
     test_bitstring();
     test_encoder();
+    test_polynomials();
     printf("Tests Passed!\n");
 }
