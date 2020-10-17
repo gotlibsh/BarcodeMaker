@@ -357,39 +357,12 @@ end:
     return status;
 }
 
-static p_status get_nth_generator_multiplier(poly_t* p, uint16_t n)
-{
-    p_status status = P_GENERAL_ERROR;
-
-
-    if (p == NULL || n == 0)
-    {
-        LOG_ERROR_INTERNAL("Invalid arguments, p 0x%08llx, n %d", (uint64_t)p, n);
-        status = P_INVALID_PARAMS;
-        goto end;
-    }
-
-    status = p_create(p, false, 2, 1, g_log_table[n-1]);
-
-    if (status != P_OK)
-    {
-        LOG_ERROR_INTERNAL("Failed to create (%d) multiplier polynom with status %d", n-1, status);
-        status = P_GENERAL_ERROR;
-        goto end;
-    }
-
-    status = P_OK;
-
-end:
-    return status;
-}
-
 p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
 {
     p_status    status = P_GENERAL_ERROR;
     poly_t      res = {0};
     poly_t      mul = {0};
-    uint16_t    ith_multiplier = 1;
+    uint16_t    ith_multiplier = 0;
 
 
     if (p == NULL || ec_codewords_count == 0)
@@ -399,11 +372,11 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
         goto end;
     }
 
-    status = get_nth_generator_multiplier(&res, ith_multiplier);
+    status = p_create(&res, false, 2, 1, g_log_table[ith_multiplier]);
 
     if (status != P_OK)
     {
-        LOG_ERROR_INTERNAL("Failed to get generator multiplier (%d) with status %d", ith_multiplier, status);
+        LOG_ERROR_INTERNAL("Failed to create generator multiplier (%d) with status %d", ith_multiplier, status);
         status = P_GENERAL_ERROR;
         goto end;
     }
@@ -412,12 +385,12 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
     
     while (ec_codewords_count > 1)
     {
-        status = get_nth_generator_multiplier(&mul, ith_multiplier);
+        status = p_create(&mul, false, 2, 1, g_log_table[ith_multiplier]);
         ith_multiplier++;
 
         if (status != P_OK)
         {
-            LOG_ERROR_INTERNAL("Failed to get generator multiplier (%d) with status %d", ith_multiplier, status);
+            LOG_ERROR_INTERNAL("Failed to create generator multiplier (%d) with status %d", ith_multiplier, status);
             status = P_GENERAL_ERROR;
             goto end;
         }
@@ -441,6 +414,24 @@ p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count)
 
 end:
     return status;
+}
+
+p_status f()
+{
+    // prepare the message polynomial and the generator polynomial for long devision
+    poly_t message_p = {0}, generator_p = {0};  // followed by some initialization
+    int codewords = 10;
+
+    // multiply the message polynomial x^n where n is the number of error correction codewords required
+    poly_t xn = {0};
+    p_create(&xn, true, codewords);
+    E(&xn, 0) = 1;
+    p_mul_in_place(&message_p, &xn);
+
+    // multiply the generator polynomial by 
+    poly_t xn_comp = {0};
+    p_create(&xn_comp, true, DEGREE(&message_p));
+    return P_OK;
 }
 
 int main2(int argc, char* argv[])
