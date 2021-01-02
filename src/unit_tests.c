@@ -454,10 +454,26 @@ void test_poly_multiply()
     assert(E(&pq, 13) == 0);
     p_del(&p); p_del(&q); p_del(&pq);
 
+    // test multiplying a polynomial by itself using the same polynomial
+    // (11x + 22)(11x + 22) == (a^238x + a^239)(a^238x + a^239)
+    // == a^(238+238 % 255)x^2 + a^(238+239 % 255)x + a^(238+239 % 255)x + a^(239+239 % 255)
+    // == a^221x^2 + a^222x + a^222x + a^223 == a^221x^2 + (a^222 ^ a^222)x + a^223
+    // == 69x^2 + (138 xor 138)x + 9 
+    // == 69x^2 + 0x + 9
+    assert(p_create(&p, false, 2, 11, 22) == P_OK);
+    assert(p_mul(&p, &p, &pq) == P_OK);
+    assert(TERMS(&pq) == 3);
+    assert(E(&pq, 0) == 69);
+    assert(E(&pq, 1) == 0);
+    assert(E(&pq, 2) == 9);
+    p_del(&p); p_del(&pq);
+
     // test invalid parameters error
     assert(p_mul(NULL, &q, &pq) == P_INVALID_PARAMS);
     assert(p_mul(&p, NULL, &pq) == P_INVALID_PARAMS);
     assert(p_mul(&p, &q, NULL) == P_INVALID_PARAMS);
+    assert(p_mul(&p, &q, &p) == P_INVALID_PARAMS);
+    assert(p_mul(&p, &q, &q) == P_INVALID_PARAMS);
 }
 
 void test_poly_multiply_in_place()
@@ -488,6 +504,132 @@ void test_poly_multiply_in_place()
     // test invalid parameters error
     assert(p_mul_in_place(NULL, &multiplier) == P_INVALID_PARAMS);
     assert(p_mul_in_place(&out, NULL) == P_INVALID_PARAMS);
+    assert(p_mul_in_place(&out, &out) == P_INVALID_PARAMS);
+}
+
+void test_poly_add()
+{
+    poly_t p = {0}, q = {0}, res = {0};
+
+    // positive tests
+    // test adding 2 polynomials with the same degree
+    assert(p_create(&p, false, 10, 1, 2, 3, 4, 5, 0, 0, 0, 0, 0) == P_OK);
+    assert(p_create(&q, false, 10, 9, 8 ,7, 6, 5, 4, 3, 2 ,1, 0) == P_OK);
+    assert(p_add(&p, &q, &res) == P_OK);
+    assert(TERMS(&res) == 10);
+    assert(E(&res, 0) == (1^9));
+    assert(E(&res, 1) == (2^8));
+    assert(E(&res, 2) == (3^7));
+    assert(E(&res, 3) == (4^6));
+    assert(E(&res, 4) == (5^5));
+    assert(E(&res, 5) == (0^4));
+    assert(E(&res, 6) == (0^3));
+    assert(E(&res, 7) == (0^2));
+    assert(E(&res, 8) == (0^1));
+    assert(E(&res, 9) == (0^0));
+    p_del(&p); p_del(&q); p_del(&res);
+
+    // test adding 2 polynomials with different degrees
+    assert(p_create(&p, false, 3, 50, 100, 150) == P_OK);
+    assert(p_create(&q, false, 6, 15, 30, 45, 60, 75, 90) == P_OK);
+    assert(p_add(&p, &q, &res) == P_OK);
+    assert(TERMS(&res) == 6);
+    assert(E(&res, 0) == (0^15));
+    assert(E(&res, 1) == (0^30));
+    assert(E(&res, 2) == (0^45));
+    assert(E(&res, 3) == (50^60));
+    assert(E(&res, 4) == (100^75));
+    assert(E(&res, 5) == (150^90));
+    p_del(&p); p_del(&q); p_del(&res);
+
+    // test adding a polynomial to itself using the same polynomial
+    assert(p_create(&p, false, 3, 1, 2, 3) == P_OK);
+    assert(p_add(&p, &p, &res) == P_OK);
+    assert(TERMS(&res) == 1);
+    assert(E(&res, 0) == 0);
+    p_del(&p); p_del(&res);
+
+    // test invalid parameter error
+    assert(p_add(NULL, &q, &res) == P_INVALID_PARAMS);
+    assert(p_add(&p, NULL, &res) == P_INVALID_PARAMS);
+    assert(p_add(&p, &q, NULL) == P_INVALID_PARAMS);
+    assert(p_add(&p, &q, &p) == P_INVALID_PARAMS);
+    assert(p_add(&p, &q, &q) == P_INVALID_PARAMS);
+}
+
+void test_poly_add_in_place()
+{
+    poly_t p = {0}, res = {0};
+
+    // positive tests
+    // same set of tests as in test_poly_add but adapted to in-place addition
+    assert(p_create(&p, false, 10, 1, 2, 3, 4, 5, 0, 0, 0, 0, 0) == P_OK);
+    assert(p_create(&res, false, 10, 9, 8 ,7, 6, 5, 4, 3, 2 ,1, 0) == P_OK);
+    assert(p_add_in_place(&res, &p) == P_OK);
+    assert(TERMS(&res) == 10);
+    assert(E(&res, 0) == (1^9));
+    assert(E(&res, 1) == (2^8));
+    assert(E(&res, 2) == (3^7));
+    assert(E(&res, 3) == (4^6));
+    assert(E(&res, 4) == (5^5));
+    assert(E(&res, 5) == (0^4));
+    assert(E(&res, 6) == (0^3));
+    assert(E(&res, 7) == (0^2));
+    assert(E(&res, 8) == (0^1));
+    assert(E(&res, 9) == (0^0));
+    p_del(&p); p_del(&res);
+
+    assert(p_create(&p, false, 3, 50, 100, 150) == P_OK);
+    assert(p_create(&res, false, 6, 15, 30, 45, 60, 75, 90) == P_OK);
+    assert(p_add_in_place(&res, &p) == P_OK);
+    assert(TERMS(&res) == 6);
+    assert(E(&res, 0) == (0^15));
+    assert(E(&res, 1) == (0^30));
+    assert(E(&res, 2) == (0^45));
+    assert(E(&res, 3) == (50^60));
+    assert(E(&res, 4) == (100^75));
+    assert(E(&res, 5) == (150^90));
+    p_del(&p); p_del(&res);
+
+    // test adding a polynomial to itself using the same polynomial
+    assert(p_create(&res, false, 4, 1, 2, 3, 4) == P_OK);
+    assert(p_add_in_place(&res, &res) == P_OK);
+    assert(TERMS(&res) == 1);
+    assert(E(&res, 0) == 0);
+    p_del(&res);
+
+    // test invalid parameters error
+    assert(p_add_in_place(NULL, &p) == P_INVALID_PARAMS);
+    assert(p_add_in_place(&res, NULL) == P_INVALID_PARAMS);
+}
+
+void test_poly_div()
+{
+    poly_t dividend = {0}, divisor = {0}, res = {0};
+
+    // positive tests
+    // test division of polynomial 32x^15 + 91x^14 + 11x^13 + 120x^12 + 209x^11 + 114x^10 + 220x^9 + 77x^8 + 67x^7 + 64x^6 + 236x^5 + 17x^4 + 236x^3 + 17x^2 + 236x^1 + 17
+    // by the generator polynomial that is used for 10 codewords (1-M code) as described at https://www.thonky.com/qr-code-tutorial/error-correction-coding
+    assert(p_create(&dividend, false, 16, 32, 91, 11, 120, 209, 114, 220, 77, 67, 64, 236, 17, 236, 17, 236, 17) == P_OK);
+    assert(p_get_generator_polynomial(&divisor, 10) == P_OK);
+    assert(p_div(&dividend, &divisor, &res) == P_OK);
+    assert(TERMS(&res) == 10);
+    assert(E(&res, 0) == 196);
+    assert(E(&res, 1) == 35);
+    assert(E(&res, 2) == 39);
+    assert(E(&res, 3) == 119);
+    assert(E(&res, 4) == 235);
+    assert(E(&res, 5) == 215);
+    assert(E(&res, 6) == 231);
+    assert(E(&res, 7) == 226);
+    assert(E(&res, 8) == 93);
+    assert(E(&res, 9) == 23);
+    p_del(&dividend); p_del(&divisor); p_del(&res);
+
+    // test invalid parameters error
+    assert(p_div(NULL, &divisor, &res) == P_INVALID_PARAMS);
+    assert(p_div(&dividend, NULL, &res) == P_INVALID_PARAMS);
+    assert(p_div(&dividend, &divisor, NULL) == P_INVALID_PARAMS);
 }
 
 void test_poly_get_generator()
@@ -537,6 +679,9 @@ void test_polynomials()
     test_poly_copy();
     test_poly_multiply();
     test_poly_multiply_in_place();
+    test_poly_add();
+    test_poly_add_in_place();
+    test_poly_div();
     test_poly_get_generator();
 }
 

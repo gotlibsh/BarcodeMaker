@@ -287,6 +287,13 @@ p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
         goto end;
     }
 
+    if (p == pq || q == pq)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, p and q cannot hold the result of the multiplication operation");
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
     status = p_create(pq, true, DEGREE(p) + DEGREE(q) + 1);
 
     if (status != P_OK)
@@ -298,6 +305,7 @@ p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
 
     for (uint16_t i = 0; i < TERMS(p); ++i)
     {
+        // special case: if coefficient is 0 we skip the term as the multiplication will add nothing
         if (p->coef[i] == 0)
         {
             continue;
@@ -305,6 +313,7 @@ p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
 
         for (uint16_t j = 0; j < TERMS(q); ++j)
         {
+            // special case: if coefficient is 0 we skip the term as the multiplication will add nothing
             if (q->coef[j] == 0)
             {
                 continue;
@@ -331,11 +340,18 @@ p_status p_mul_in_place(poly_t* out, poly_t* multiplier)
 {
     p_status status  = P_GENERAL_ERROR;
     poly_t   temp    = {0};
-    
+
 
     if (out == NULL || multiplier == NULL)
     {
         LOG_ERROR_INTERNAL("Invalid parameters, out 0x%08llx, multiplier 0x%08llx", (uint64_t)out, (uint64_t)multiplier);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (out == multiplier)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, multiplying a polynomial by itself is not supported");
         status = P_INVALID_PARAMS;
         goto end;
     }
@@ -363,6 +379,174 @@ p_status p_mul_in_place(poly_t* out, poly_t* multiplier)
 
 end:
     p_del(&temp);
+
+    return status;
+}
+
+p_status p_add(poly_t* p, poly_t* q, poly_t* out)
+{
+    p_status status             = P_GENERAL_ERROR;
+    uint16_t final_terms_count  = 0;
+    uint16_t empty_lead_terms   = 0;
+    poly_t   res                = {0};
+    poly_t*  p_min              = NULL;
+    poly_t*  p_max              = NULL;
+    uint16_t min_size, max_size;
+    uint16_t min_idx, max_idx;
+
+
+    if (p == NULL || q == NULL || out == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, p 0x%08llx, q 0x%08llx, out 0x%08llx", (uint64_t)p, (uint64_t)q, (uint64_t)out);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (p == out || q == out)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, p and q cannot hold the result of the addition operation");
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (TERMS(p) > TERMS(q))
+    {
+        p_min = q;
+        p_max = p;
+    }
+    else
+    {
+        p_min = p;
+        p_max = q;
+    }
+    
+    min_size = min(TERMS(p), TERMS(q));
+    max_size = max(TERMS(p), TERMS(q));
+
+    status = p_create(&res, true, max_size);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to create the result polynomial of size %d with status %d", max_size, status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    for (max_idx = 0; max_idx < max_size - min_size; ++max_idx)
+    {
+        res.coef[max_idx] = p_max->coef[max_idx];
+    }
+
+    for (min_idx = 0; min_idx < min_size; ++min_idx, ++max_idx)
+    {
+        res.coef[max_idx] = p_max->coef[max_idx] ^ p_min->coef[min_idx];
+    }
+
+    final_terms_count = TERMS(&res);
+
+    for (; empty_lead_terms < TERMS(&res); ++empty_lead_terms)
+    {
+        if (res.coef[empty_lead_terms] != 0)
+        {
+            break;
+        }
+    }
+
+    final_terms_count -= empty_lead_terms;
+
+    if (final_terms_count == 0)
+    {
+        // in case the final result is the zero polynomial we return a polynomial with degree 0
+        // and a single coefficient of value 0
+        status = p_create(out, true, final_terms_count + 1);
+    }
+    else
+    {
+        status = p_create(out, true, final_terms_count);
+    }
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to create the out polynomial of size %d with status %d", final_terms_count, status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    for (uint16_t i = 0; i < final_terms_count; ++i)
+    {
+        out->coef[i] = res.coef[i + empty_lead_terms];
+    }    
+
+    status = P_OK;
+
+end:
+    p_del(&res);
+
+    return status;
+}
+
+p_status p_add_in_place(poly_t* out, poly_t* add)
+{
+    p_status status         = P_GENERAL_ERROR;
+    poly_t   temp_out       = {0};
+    poly_t   temp_add       = {0};
+    bool     add_copied     = false;
+
+
+    if (out == NULL || add == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, out 0x%08llx, add 0x%08llx", (uint64_t)out, (uint64_t)add);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    status = p_copy(&temp_out, out);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to copy the out polynomial into a temporary polynomial with status %d", status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    // special case where the destination is the same as the original polynomial
+    // we can't delete the destination before copying the original first
+    if (out == add)
+    {
+        status = p_copy(&temp_add, add);
+        add_copied = true;
+
+        if (status != P_OK)
+        {
+            LOG_ERROR_INTERNAL("Failed to copy the add polynomial with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+    }
+    else
+    {
+        temp_add = *add;
+    }
+
+    p_del(out);
+    status = p_add(&temp_out, &temp_add, out);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to perform polynomial addition with status %d", status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    status = P_OK;
+
+end:
+    p_del(&temp_out);
+
+    if (add_copied)
+    {
+        p_del(&temp_add);
+    }
 
     return status;
 }
@@ -426,34 +610,147 @@ end:
     return status;
 }
 
-p_status f()
+p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
 {
-    // prepare the message polynomial and the generator polynomial for long devision
-    poly_t message_p = {0}, generator_p = {0};  // followed by some initialization
-    int codewords = 10;
+    p_status    status          = P_GENERAL_ERROR;
+    poly_t      xn              = {0};
+    poly_t      xm              = {0};
+    poly_t      lead_term       = {0};
+    poly_t      step_mul_res    = {0};
+    poly_t      step_final_res  = {0};
+    uint16_t    div_steps       = 0;
 
-    // multiply the message polynomial x^n where n is the number of error correction codewords required
-    poly_t xn = {0};
-    p_create(&xn, true, codewords);
-    E(&xn, 0) = 1;
-    p_mul_in_place(&message_p, &xn);
 
-    // multiply the generator polynomial by 
-    poly_t xn_comp = {0};
-    p_create(&xn_comp, true, DEGREE(&message_p));
-    return P_OK;
+    if (dividend == NULL || divisor == NULL || out == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, dividend 0x%08llx, divisor 0x%08llx, out 0x%08llx", (uint64_t)dividend, (uint64_t)divisor, (uint64_t)out);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    div_steps = TERMS(dividend);
+
+    /*
+    Now we want to make both the dividend and the divisor have the same number of terms
+    */
+
+    // create x^n polynomial where n is the number of terms in the divisor
+    status = p_create(&xn, true, TERMS(divisor));
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to create the x^%d polynomial to multiply the dividend by, with status %d", TERMS(divisor), status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    // create x^m polynomial where m is the number of terms in the dividend
+    status = p_create(&xm, true, TERMS(dividend));
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to create the x^%d polynomial to multiply the divisor by, with status %d", TERMS(dividend), status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    E(&xn, 0) = 1;  // assign coefficient of x^n to 1
+    E(&xm, 0) = 1;  // assign coefficient of x^m to 1
+
+    // perform in place multiplication for the dividend with x^n
+    status = p_mul_in_place(dividend, &xn);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to multiply the dividend polynomial by x^%d with status %d", TERMS(divisor), status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    // perform in place multiplication for the divisor with x^m
+    status = p_mul_in_place(divisor, &xm);
+    
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to multiply the divisor polynomial by x^%d with status %d", TERMS(dividend), status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    status = p_copy(&step_final_res, dividend);
+
+    if (status != P_OK)
+    {
+        LOG_ERROR_INTERNAL("Failed to copy the dividend polynomial with status %d", status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    for (uint16_t i = 0; i < div_steps; ++i)
+    {
+        // if (i == 0) temp_res = dividend;
+        // else        temp_res = &remainder;
+        
+        status = p_create(&lead_term, false, 1, E(&step_final_res, 0));
+
+        if (status != P_OK)
+        {
+            LOG_ERROR_INTERNAL("Failed to create a polynomial for the lead term with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+
+        status = p_mul(divisor, &lead_term, &step_mul_res);
+
+        if (status != P_OK)
+        {
+            LOG_ERROR_INTERNAL("Failed to multiply the generator polynomial by the lead term with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+
+        status = p_add_in_place(&step_final_res, &step_mul_res);
+
+        if (status != P_OK)
+        {
+            LOG_ERROR_INTERNAL("Failed to add remainder polynomial to result of previous step with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+
+        // decrease the degree of the divisor to match the degree of the dividend
+        divisor->degree--;
+
+        p_del(&lead_term);
+        p_del(&step_mul_res);
+    }
+
+    *out = step_final_res;
+    status = P_OK;
+
+end:
+    p_del(&xm);
+    p_del(&xn);
+    p_del(&lead_term);
+    p_del(&step_mul_res);
+
+    return status;
 }
 
 int main2(int argc, char* argv[])
 {
-    poly_t p = {0};
+    poly_t message = {0};
+    poly_t generator = {0};
+    poly_t result = {0};
 
-    p_get_generator_polynomial(&p, argc == 2? atoi(argv[1]) : 8);
-    p_print_exp_notation(&p);
+    p_create(&message, false, 16, 32, 91, 11, 120, 209, 114, 220, 77, 67, 64, 236, 17, 236, 17, 236, 17);
+    p_get_generator_polynomial(&generator, 10);
 
-    p_del(&p);
-
-    printf("\nallocs %lld\n", g_allocs);
+    if (p_div(&message, &generator, &result) == P_OK)
+    {
+        p_print(&result);
+        p_print_exp_notation(&result);
+    }
 
     return 0;
 }

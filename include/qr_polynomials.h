@@ -33,6 +33,9 @@ void p_del(poly_t* p);
 p_status p_copy(poly_t* dest, poly_t* src);
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq);
 p_status p_mul_in_place(poly_t* out, poly_t* multiplier);
+p_status p_add(poly_t* p, poly_t* q, poly_t* out);
+p_status p_add_in_place(poly_t* out, poly_t* add);
+p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out);
 p_status p_get_generator_polynomial(poly_t* p, uint16_t ec_codewords_count);
 
 #endif
