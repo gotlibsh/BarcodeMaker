@@ -431,6 +431,29 @@ void test_poly_multiply()
     assert(E(&pq, 3) == 126);
     p_del(&p); p_del(&q); p_del(&pq);
 
+    // test corner case of multiplying by 0 coefficients
+    // (x^9 + 2x^8 + 3x^7 + 4x^6 + 5x^5 + 6x^4 + 7x^3 + 8x^2 + 9x + 10)(x^4)
+    // == (x^13 + 2x^12 + 3x^11 + 4x^10 + 5x^9 + 6x^8 + 7x^7 + 8x^6 + 9x^5 + 10x^4 + 0x^3 + 0x^2 + 0x^1 + 0)
+    assert(p_create(&p, false, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) == P_OK);
+    assert(p_create(&q, false, 5, 1, 0, 0, 0, 0) == P_OK);
+    assert(p_mul(&p, &q, &pq) == P_OK);
+    assert(TERMS(&pq) == 14);
+    assert(E(&pq, 0) == 1);
+    assert(E(&pq, 1) == 2);
+    assert(E(&pq, 2) == 3);
+    assert(E(&pq, 3) == 4);
+    assert(E(&pq, 4) == 5);
+    assert(E(&pq, 5) == 6);
+    assert(E(&pq, 6) == 7);
+    assert(E(&pq, 7) == 8);
+    assert(E(&pq, 8) == 9);
+    assert(E(&pq, 9) == 10);
+    assert(E(&pq, 10) == 0);
+    assert(E(&pq, 11) == 0);
+    assert(E(&pq, 12) == 0);
+    assert(E(&pq, 13) == 0);
+    p_del(&p); p_del(&q); p_del(&pq);
+
     // test invalid parameters error
     assert(p_mul(NULL, &q, &pq) == P_INVALID_PARAMS);
     assert(p_mul(&p, NULL, &pq) == P_INVALID_PARAMS);

@@ -298,8 +298,18 @@ p_status p_mul(poly_t* p, poly_t* q, poly_t* pq)
 
     for (uint16_t i = 0; i < TERMS(p); ++i)
     {
+        if (p->coef[i] == 0)
+        {
+            continue;
+        }
+
         for (uint16_t j = 0; j < TERMS(q); ++j)
         {
+            if (q->coef[j] == 0)
+            {
+                continue;
+            }
+
             coef_mul = g_antilog_table[p->coef[i]] + g_antilog_table[q->coef[j]];
             
             if (coef_mul >= 256)
