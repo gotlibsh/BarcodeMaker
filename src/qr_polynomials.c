@@ -736,21 +736,3 @@ end:
 
     return status;
 }
-
-int main2(int argc, char* argv[])
-{
-    poly_t message = {0};
-    poly_t generator = {0};
-    poly_t result = {0};
-
-    p_create(&message, false, 16, 32, 91, 11, 120, 209, 114, 220, 77, 67, 64, 236, 17, 236, 17, 236, 17);
-    p_get_generator_polynomial(&generator, 10);
-
-    if (p_div(&message, &generator, &result) == P_OK)
-    {
-        p_print(&result);
-        p_print_exp_notation(&result);
-    }
-
-    return 0;
-}
