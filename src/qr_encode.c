@@ -576,21 +576,20 @@ end:
     return status;
 }
 
-qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode)
+qr_status qr_encode_data(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode)
 {
-    qr_encode_ctx   ctx                 = {0};
     qr_status       status              = QR_GENERAL_ERROR;
     uint16_t        req_codeword_count  = 0;
 
 
-    if (data == NULL || data_size == 0)
+    if (ctx == NULL || data == NULL || data_size == 0)
     {
-        LOG_ERROR("Invalid arguments, data 0x%08llx, data_size %d", (uint64_t)data, data_size);
+        LOG_ERROR("Invalid arguments, ctx 0x%08llx, data 0x%08llx, data_size %d", (uint64_t)ctx, (uint64_t)data, data_size);
         status = QR_INVALID_PARAMS;
         goto end;
     }
 
-    status = qr_init_ctx(&ctx, correction_level, mode, data_size);
+    status = qr_init_ctx(ctx, correction_level, mode, data_size);
 
     if (status != QR_OK)
     {
@@ -598,7 +597,7 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
-    status = qr_add_mode_indicator(&ctx);
+    status = qr_add_mode_indicator(ctx);
 
     if (status != QR_OK)
     {
@@ -606,7 +605,7 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
-    status = qr_add_character_count_indicator(&ctx);
+    status = qr_add_character_count_indicator(ctx);
 
     if (status != QR_OK)
     {
@@ -614,7 +613,7 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
-    status = qr_encode_by_mode(&ctx, data, data_size);
+    status = qr_encode_by_mode(ctx, data, data_size);
 
     if (status != QR_OK)
     {
@@ -622,8 +621,8 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
         goto end;
     }
 
-    req_codeword_count = g_ec_table[ctx.version].correction_levels[ctx.correction_level].total_codewords_count;
-    status = qr_add_terminator_and_padding(&ctx, req_codeword_count);
+    req_codeword_count = g_ec_table[ctx->version].correction_levels[ctx->correction_level].total_codewords_count;
+    status = qr_add_terminator_and_padding(ctx, req_codeword_count);
 
     if (status != QR_OK)
     {
@@ -633,11 +632,6 @@ qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level 
 
     status = QR_OK;
 
-    // for testing purposes
-    qr_print_encode_ctx(&ctx);
-
 end:
-    qr_deinit_ctx(&ctx);
-
     return status;
 }

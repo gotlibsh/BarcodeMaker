@@ -15,6 +15,6 @@ qr_status qr_encode_mode_alphanumeric(qr_encode_ctx* ctx, uint8_t* data, uint16_
 qr_status qr_encode_mode_byte(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
 qr_status qr_encode_mode_kanji(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
 qr_status qr_encode_by_mode(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
-qr_status qr_encode_data(uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode);
+qr_status qr_encode_data(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size, qr_correction_level correction_level, qr_encoding_mode mode);
 
 #endif

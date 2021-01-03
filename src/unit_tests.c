@@ -318,8 +318,9 @@ void test_encoding_mode_kanji()
 
 void test_encoding_e2e()
 {
+    qr_encode_ctx ctx = {0};
     char test1[] = "HELLO WORLD";
-    assert(qr_encode_data(test1, STR_SIZE(test1), QR_CORRECTION_LEVEL_Q, QR_MODE_ALPHANUMERIC) == QR_OK);
+    assert(qr_encode_data(&ctx, test1, STR_SIZE(test1), QR_CORRECTION_LEVEL_Q, QR_MODE_ALPHANUMERIC) == QR_OK);
 }
 
 void test_encoder()
