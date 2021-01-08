@@ -332,6 +332,9 @@ void test_encoder()
     test_encoding_e2e();
 }
 
+/*************************************
+ *         Polynomial Tests          *
+ *************************************/
 void test_poly_create()
 {
     poly_t p = {0};
@@ -686,6 +689,9 @@ void test_polynomials()
     test_poly_get_generator();
 }
 
+/*************************************
+ *            Main Tester            *
+ *************************************/
 void main_tester()
 {
     test_bitstring();
