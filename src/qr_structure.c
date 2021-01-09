@@ -25,7 +25,7 @@ qr_status qr_init_grouped_data(qr_grouped_data* grouped_data, qr_encode_ctx* ctx
         goto end;
     }
 
-    for (uint16_t i = 0; i < NUM_OF_GROUPS; ++i)
+    for (uint16_t i = 0; i < EC_MAX_GROUP_NUM; ++i)
     {
         cur_group = &grouped_data->groups[i];
         num_of_blocks = g_ec_table[ctx->version].correction_levels[ctx->correction_level].groups[i].block_count;
@@ -91,14 +91,14 @@ qr_status qr_copy_data_into_grouped_data(qr_grouped_data* grouped_data, buffer* 
         goto end;
     }
 
-    for (uint16_t i = 0; i < NUM_OF_GROUPS; ++i)
+    for (uint16_t i = 0; i < EC_MAX_GROUP_NUM; ++i)
     {
         cur_group = &grouped_data->groups[i];
 
         for (uint16_t j = 0; j < cur_group->num_of_blocks; ++j)
         {
             cur_block = &cur_group->blocks[j];
-            bytes_to_copy = buf_len(&cur_block->data);
+            bytes_to_copy = buf_size(&cur_block->data);
 
             buf_status = buf_copy_ex(&cur_block->data, 0, src, src_offset, bytes_to_copy);
 
@@ -137,7 +137,7 @@ qr_status qr_generate_error_correction(qr_grouped_data* grouped_data)
         goto end;
     }
 
-    for (uint16_t i = 0; i < NUM_OF_GROUPS; ++i)
+    for (uint16_t i = 0; i < EC_MAX_GROUP_NUM; ++i)
     {
         cur_group = &grouped_data->groups[i];
 
@@ -154,7 +154,7 @@ qr_status qr_generate_error_correction(qr_grouped_data* grouped_data)
                 goto end;
             }
 
-            p_status = p_get_generator_polynomial(&p_generator, buf_len(&cur_block->ec));
+            p_status = p_get_generator_polynomial(&p_generator, buf_size(&cur_block->ec));
 
             if (p_status != P_OK)
             {

@@ -2,8 +2,7 @@
 #define _QR_STRUCTURE_H_
 
 #include <buffer.h>
-
-#define NUM_OF_GROUPS       (2)
+#include <qr_utils.h>
 
 typedef struct _qr_block
 {
@@ -14,12 +13,12 @@ typedef struct _qr_block
 typedef struct _qr_group
 {
     qr_block* blocks;
-    uint16_t num_of_blocks;
+    uint16_t  num_of_blocks;
 } qr_group;
 
 typedef struct _qr_grouped_data
 {
-    qr_group groups[NUM_OF_GROUPS];
+    qr_group groups[EC_MAX_GROUP_NUM];
 } qr_grouped_data;
 
 qr_status qr_init_grouped_data(qr_grouped_data* grouped_data, qr_encode_ctx* ctx);
