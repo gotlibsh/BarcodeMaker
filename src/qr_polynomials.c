@@ -230,7 +230,6 @@ end:
 p_status p_create_from_buffer(poly_t* p, buffer* src)
 {
     p_status    status      = P_GENERAL_ERROR;
-    errno_t     cpy_status  = -1;
 
 
     if (p == NULL || src == NULL)
@@ -258,13 +257,10 @@ p_status p_create_from_buffer(poly_t* p, buffer* src)
     }
 
     g_allocs++;
-    cpy_status = memcpy_s(p->coef, src->size * sizeof(int32_t), src->data, src->size);
 
-    if (cpy_status != 0)
+    for (uint32_t i = 0; i < src->size; ++i)
     {
-        LOG_ERROR_INTERNAL("Failed to copy buffer to polynomial with status %d", cpy_status);
-        status = P_GENERAL_ERROR;
-        goto end;
+        p->coef[i] = src->data[i];
     }
 
     status = P_OK;
@@ -285,8 +281,24 @@ p_status p_to_buffer(poly_t* p, buffer* dest)
         goto end;
     }
 
-    dest->data = p->coef;
-    dest->size = TERMS(p);
+    if (dest->size < TERMS(p))
+    {
+        LOG_ERROR_INTERNAL("Failed to copy polynomial to buffer due to insufficient buffer size, buffer-size %d polynomial-size %d", dest->size, TERMS(p));
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    for (uint32_t i = 0; i < TERMS(p); ++i)
+    {
+        if (p->coef[i] > UCHAR_MAX)
+        {
+            LOG_ERROR_INTERNAL("Failed to copy polynomial to buffer, polynomial contains numbers larger than UCHAR_MAX");
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+
+        dest->data[i] = p->coef[i];
+    }
 
     status = P_OK;
 

@@ -165,7 +165,7 @@ qr_status qr_generate_error_correction(qr_grouped_data* grouped_data)
 
             p_status = p_div(&p_message, &p_generator, &p_error_correction);
 
-            if (p_status != P_OK);
+            if (p_status != P_OK)
             {
                 LOG_ERROR("Failed to create error correction polynomial with status %d", p_status);
                 status = QR_GENERAL_ERROR;
@@ -174,7 +174,7 @@ qr_status qr_generate_error_correction(qr_grouped_data* grouped_data)
 
             p_status = p_to_buffer(&p_error_correction, &cur_block->ec);
 
-            if (p_status != P_OK);
+            if (p_status != P_OK)
             {
                 LOG_ERROR("Failed to convert error correction polynomial to buffer with status %d", p_status);
                 status = QR_GENERAL_ERROR;
