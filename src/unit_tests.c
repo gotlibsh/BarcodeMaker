@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdarg.h>
 #include <qr_encode.h>
 #include <qr_polynomials.h>
 
@@ -19,7 +20,6 @@ void _assert(bool expression, char* file, uint32_t line)
 /*************************************
  *         Bit String Tests          *
  *************************************/
-
 #define _DECLARE_BS(n)          bit_string bs_ ## n = {0}
 #define _DECLARE_BS_P(n)        *p_bs_ ## n = &bs_ ## n
 #define DECLARE_BS(n)           _DECLARE_BS(n), _DECLARE_BS_P(n)        // bit_string bs_n = {0}, *p_bs_n = &bs_n;
@@ -242,6 +242,271 @@ void test_bitstring()
     test_bitstring_put_number();
     test_bitstring_len();
     test_bitstring_to_buffer();
+}
+
+/*************************************
+ *            Buffer tests           *
+ *************************************/
+#define _DECLARE_BUF(n)          buffer buf_ ## n = {0}
+#define _DECLARE_BUF_P(n)        *p_buf_ ## n = &buf_ ## n
+#define DECLARE_BUF(n)           _DECLARE_BUF(n), _DECLARE_BUF_P(n)        // buffer buf_n = {0}, *p_buf_n = &buf_n
+
+bool buffer_set(buffer* buf, uint32_t n, ...)
+{
+    va_list ap;
+
+
+    if (buf == NULL || buf->size < n)
+    {
+        return false;
+    }
+
+    va_start(ap, n);
+
+    for (uint32_t i = 0; i < n; ++i)
+    {
+        buf->data[i] = va_arg(ap, uint32_t);
+    }
+
+    va_end(ap);
+
+    return true;
+}
+
+bool buffer_compare_ex(buffer* b1, uint32_t b1_offset, buffer* b2, uint32_t b2_offset, uint32_t count)
+{
+    if (b1 == NULL || b2 == NULL || b1->size - b1_offset < count || b2->size - b2_offset < count)
+    {
+        return false;
+    }
+
+    for (uint32_t i = 0; i < count; ++i)
+    {
+        if (b1->data[b1_offset + i] != b2->data[b2_offset + i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool buffer_compare(buffer* b1, buffer* b2, uint32_t count)
+{
+    return buffer_compare_ex(b1, 0, b2, 0, count);
+}
+
+bool buffer_zero(buffer* buf, uint32_t offset)
+{
+    if (buf == NULL || buf->size < offset)
+    {
+        return false;
+    }
+
+    for (; offset < buf->size; ++offset)
+    {
+        if (buf->data[offset] != 0)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void test_buffer_alloc()
+{
+    DECLARE_BUF(1);
+
+    // positive tests
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(p_buf_1->size == 10);
+    assert(buffer_zero(p_buf_1, 0));
+    buf_dealloc(p_buf_1);
+
+    assert(buf_alloc(p_buf_1, 100) == BUF_OK);
+    assert(p_buf_1->size == 100);
+    assert(buffer_zero(p_buf_1, 0));
+    buf_dealloc(p_buf_1);
+
+    // test invalid parameters error
+    assert(buf_alloc(NULL, 1) == BUF_INVALID_PARAMS);
+    assert(buf_alloc(p_buf_1, 0) == BUF_INVALID_PARAMS);
+}
+
+void test_buffer_copy()
+{
+    DECLARE_BUF(1);
+    DECLARE_BUF(2);
+
+    // positive tests
+    // test source and destination with the same size
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    assert(buf_copy(p_buf_2, p_buf_1, 10) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 10));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test destination bigger than source
+    assert(buf_alloc(p_buf_1, 5) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 5, 2, 4, 6, 8, 10));
+    assert(buf_copy(p_buf_2, p_buf_1, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    assert(buffer_zero(p_buf_2, 5));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test source bigger than destination
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 5) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20));
+    assert(buf_copy(p_buf_2, p_buf_1, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test destination is partially overridden
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    assert(buffer_set(p_buf_2, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20));
+    assert(buf_copy(p_buf_2, p_buf_1, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    assert(p_buf_2->data[5] == 16);
+    assert(p_buf_2->data[6] == 17);
+    assert(p_buf_2->data[7] == 18);
+    assert(p_buf_2->data[8] == 19);
+    assert(p_buf_2->data[9] == 20);
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test invalid parameters error
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buf_copy(NULL, p_buf_2, 10) == BUF_INVALID_PARAMS);
+    assert(buf_copy(p_buf_1, NULL, 10) == BUF_INVALID_PARAMS);
+    assert(buf_copy(p_buf_1, p_buf_2, 0) == BUF_INVALID_PARAMS);
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+}
+
+void test_buffer_copy_ex()
+{
+    DECLARE_BUF(1);
+    DECLARE_BUF(2);
+
+    // positive tests
+    // first testing the same set of tests as for buf_copy but using buf_copy_ex (we don't assume anything on buf_copy's implementation...)
+    // test source and destination with the same size
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    assert(buf_copy_ex(p_buf_2, 0, p_buf_1, 0, 10) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 10));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test destination bigger than source
+    assert(buf_alloc(p_buf_1, 5) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 5, 2, 4, 6, 8, 10));
+    assert(buf_copy_ex(p_buf_2, 0, p_buf_1, 0, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    assert(buffer_zero(p_buf_2, 5));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test source bigger than destination
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 5) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20));
+    assert(buf_copy_ex(p_buf_2, 0, p_buf_1, 0, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test destination is partially overridden
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buffer_set(p_buf_1, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    assert(buffer_set(p_buf_2, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20));
+    assert(buf_copy_ex(p_buf_2, 0, p_buf_1, 0, 5) == BUF_OK);
+    assert(buffer_compare(p_buf_1, p_buf_2, 5));
+    assert(p_buf_2->data[5] == 16);
+    assert(p_buf_2->data[6] == 17);
+    assert(p_buf_2->data[7] == 18);
+    assert(p_buf_2->data[8] == 19);
+    assert(p_buf_2->data[9] == 20);
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // additional tests using offset != 0
+
+    // test source offset != 0
+    assert(buf_alloc(p_buf_1, 7) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 4) == BUF_OK);
+    assert(buffer_set(p_buf_1, 7, 1, 2, 3, 4, 5, 6, 7));
+    assert(buffer_set(p_buf_2, 4, 1, 2, 3, 4));
+    assert(buf_copy_ex(p_buf_2, 0, p_buf_1, 3, 4) == BUF_OK);
+    assert(buffer_compare_ex(p_buf_1, 3, p_buf_2, 0, 4));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test destination offset != 0
+    assert(buf_alloc(p_buf_1, 4) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 7) == BUF_OK);
+    assert(buffer_set(p_buf_1, 4, 1, 2, 3, 4));
+    assert(buffer_set(p_buf_2, 7, 1, 2, 3, 4, 5, 6, 7));
+    assert(buf_copy_ex(p_buf_2, 3, p_buf_1, 0, 4) == BUF_OK);
+    assert(buffer_compare_ex(p_buf_2, 3, p_buf_1, 0, 4));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test mixed
+    assert(buf_alloc(p_buf_1, 8) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 12) == BUF_OK);
+    assert(buffer_set(p_buf_1, 8, 1, 2, 3, 4, 5, 6, 7, 8));
+    assert(buffer_set(p_buf_2, 12, 0xff, 0xff, 0xff ,0xff, 0xff, 0xff, 0xff ,0xff, 0xff, 0xff, 0xff ,0xff));
+    assert(buf_copy_ex(p_buf_2, 8, p_buf_1, 0, 4) == BUF_OK);   // copy to the end of buf2: 1,2,3,4
+    assert(buf_copy_ex(p_buf_1, 4, p_buf_2, 0, 4) == BUF_OK);   // copy to the end of buf1: ff ff ff ff
+    assert(buffer_compare_ex(p_buf_1, 0, p_buf_2, 8, 4));
+    assert(buffer_compare_ex(p_buf_1, 4, p_buf_2, 0, 4));
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+
+    // test invalid parameters error
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_alloc(p_buf_2, 10) == BUF_OK);
+    assert(buf_copy_ex(NULL, 0, p_buf_2, 0, 10) == BUF_INVALID_PARAMS);
+    assert(buf_copy_ex(p_buf_1, 0, NULL, 0, 10) == BUF_INVALID_PARAMS);
+    assert(buf_copy_ex(p_buf_1, 0, p_buf_2, 0, 0) == BUF_INVALID_PARAMS);
+
+    // test out of bounds error
+    assert(buf_copy_ex(p_buf_1, 11, p_buf_2, 0, 10) == BUF_OUT_OF_BOUNDS_ERROR);
+    assert(buf_copy_ex(p_buf_1, 0, p_buf_2, 11, 10) == BUF_OUT_OF_BOUNDS_ERROR);
+    assert(buf_copy_ex(p_buf_1, 5, p_buf_2, 0, 6) == BUF_OUT_OF_BOUNDS_ERROR);
+    assert(buf_copy_ex(p_buf_1, 0, p_buf_2, 5, 6) == BUF_OUT_OF_BOUNDS_ERROR);
+    buf_dealloc(p_buf_1); buf_dealloc(p_buf_2);
+}
+
+void test_buffer_size()
+{
+    DECLARE_BUF(1);
+
+    // positive tests
+    assert(buf_alloc(p_buf_1, 1) == BUF_OK);
+    assert(buf_size(p_buf_1) == 1);
+    buf_dealloc(p_buf_1);
+
+    assert(buf_alloc(p_buf_1, 10) == BUF_OK);
+    assert(buf_size(p_buf_1) == 10);
+    buf_dealloc(p_buf_1);
+
+    assert(buf_alloc(p_buf_1, 100) == BUF_OK);
+    assert(buf_size(p_buf_1) == 100);
+    buf_dealloc(p_buf_1);
+
+    // test invalid parameters error
+    assert(buf_size(NULL) == 0);
+}
+
+void test_buffer()
+{
+    test_buffer_alloc();
+    test_buffer_copy();
+    test_buffer_copy_ex();
+    test_buffer_size();
 }
 
 /*************************************
@@ -751,6 +1016,7 @@ void test_polynomials()
 void main_tester()
 {
     test_bitstring();
+    test_buffer();
     test_encoder();
     test_polynomials();
     printf("Tests Passed!\n");
