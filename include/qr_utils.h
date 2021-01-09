@@ -22,6 +22,7 @@ typedef enum _qr_status
     QR_INVALID_PARAMS,
     QR_BITSTRING_ERROR,
     QR_ENCODING_ERROR,
+    QR_OUT_OF_MEMORY_ERROR,
     QR_NOT_IMPLEMENTED,
 } qr_status;
 
