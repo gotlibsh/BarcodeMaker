@@ -31,6 +31,7 @@ void p_print(poly_t* p);
 void p_print_exp_notation(poly_t* p);
 p_status p_create(poly_t* p, bool zeroed, uint16_t terms_count, ...);
 p_status p_create_from_buffer(poly_t* p, buffer* src);
+p_status p_to_buffer(poly_t* p, buffer* dest);
 void p_del(poly_t* p);
 p_status p_copy(poly_t* dest, poly_t* src);
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq);

@@ -272,6 +272,27 @@ end:
     return status;
 }
 
+p_status p_to_buffer(poly_t* p, buffer* dest)
+{
+    p_status status = P_GENERAL_ERROR;
+
+
+    if (p == NULL || dest == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, p 0x%08llx, dest 0x%08llx", (uint64_t)p, (uint64_t)dest);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    dest->data = p->coef;
+    dest->size = TERMS(p);
+
+    status = P_OK;
+
+end:
+    return status;
+}
+
 void p_del(poly_t* p)
 {
     if (p == NULL)
@@ -761,6 +782,7 @@ p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
         }
 
         // decrease the degree of the divisor to match the degree of the dividend
+        #pragma message("WARNING!!! here we lose the actual size (terms) of the polynomial which is used in multiple places, consider copying the divisor locally")
         divisor->degree--;
 
         p_del(&lead_term);
