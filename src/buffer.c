@@ -1,5 +1,6 @@
 #include <buffer.h>
 #include <stdlib.h>
+#include <string.h>
 #include <debug_utils.h>
 
 
@@ -25,6 +26,7 @@ buf_status buf_alloc(buffer* buf, uint32_t size)
     }
 
     buf->size = size;
+    memset(buf->data, 0, buf->size);
 
     status = BUF_OK;
 
