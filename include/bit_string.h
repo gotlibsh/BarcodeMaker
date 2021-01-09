@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <limits.h>
+#include <buffer.h>
 
 // from: http://c-faq.com/misc/bitsets.html
 #define BITMASK(b)      (1 << ((b) % CHAR_BIT))
@@ -42,5 +43,6 @@ uint32_t bs_len(bit_string* bs);
 bs_status bs_alloc(bit_string* bs, uint32_t bit_count);
 void bs_dealloc(bit_string* bs);
 bs_status bs_print(bit_string* bs);
+bs_status bs_to_buffer(bit_string* bs, buffer* buf);
 
 #endif

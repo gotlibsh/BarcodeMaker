@@ -219,3 +219,24 @@ uint32_t bs_len(bit_string* bs)
 
     return bs->_index;
 }
+
+bs_status bs_to_buffer(bit_string* bs, buffer* buf)
+{
+    bs_status status = BS_GENERAL_ERROR;
+
+
+    if (bs == NULL || buf == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, bs 0x%08llx, buf 0x%08llx", (uint64_t)bs, (uint64_t)buf);
+        status = BS_INVALID_PARAMS;
+        goto end;
+    }
+
+    buf->data = bs->data;
+    buf->size = bs->alloc_size;
+
+    status = BS_OK;
+
+end:
+    return status;
+}
