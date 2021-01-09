@@ -2,6 +2,7 @@
 #define _QR_POLYNOMIALS_H_
 
 #include <stdint.h>
+#include <buffer.h>
 
 #define DEGREE(p)   (p)->degree
 #define TERMS(p)    (DEGREE(p) + 1)
@@ -29,6 +30,7 @@ typedef struct _poly_t
 void p_print(poly_t* p);
 void p_print_exp_notation(poly_t* p);
 p_status p_create(poly_t* p, bool zeroed, uint16_t terms_count, ...);
+p_status p_create_from_buffer(poly_t* p, buffer* src);
 void p_del(poly_t* p);
 p_status p_copy(poly_t* dest, poly_t* src);
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq);

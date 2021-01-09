@@ -227,6 +227,51 @@ end:
     return status;
 }
 
+p_status p_create_from_buffer(poly_t* p, buffer* src)
+{
+    p_status    status      = P_GENERAL_ERROR;
+    errno_t     cpy_status  = -1;
+
+
+    if (p == NULL || src == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, p 0x%08llx, src 0x%08llx", (uint64_t)p, (uint64_t)src);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (src->size == 0)
+    {
+        LOG_ERROR_INTERNAL("Failed to create a polynomial, invalid size %d", src->size);
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    p->coef = (int32_t*)malloc(src->size * sizeof(int32_t));
+    p->degree = src->size - 1;
+
+    if (p->coef == NULL)
+    {
+        LOG_ERROR_INTERNAL("Failed to allocate memory for a new polynomial of size %d", src->size);
+        status = P_OUT_OF_MEMORY;
+        goto end;
+    }
+
+    cpy_status = memcpy_s(p->coef, src->size * sizeof(int32_t), src->data, src->size);
+
+    if (cpy_status != 0)
+    {
+        LOG_ERROR_INTERNAL("Failed to copy buffer to polynomial with status %d", cpy_status);
+        status = P_GENERAL_ERROR;
+        goto end;
+    }
+
+    status = P_OK;
+
+end:
+    return status;
+}
+
 void p_del(poly_t* p)
 {
     if (p == NULL)
@@ -687,10 +732,7 @@ p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
     }
 
     for (uint16_t i = 0; i < div_steps; ++i)
-    {
-        // if (i == 0) temp_res = dividend;
-        // else        temp_res = &remainder;
-        
+    {        
         status = p_create(&lead_term, false, 1, E(&step_final_res, 0));
 
         if (status != P_OK)
