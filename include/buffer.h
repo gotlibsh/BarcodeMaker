@@ -23,5 +23,6 @@ void buf_dealloc(buffer* buf);
 buf_status buf_copy(buffer* dest, buffer* src, uint32_t count);
 buf_status buf_copy_ex(buffer* dest, uint32_t dest_offset, buffer* src, uint32_t src_offset, uint32_t count);
 uint32_t buf_size(buffer* buf);
+void buf_print(buffer* buf, uint8_t decimal);
 
 #endif

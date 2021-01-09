@@ -1,8 +1,30 @@
 #include <buffer.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include <debug_utils.h>
 
+
+void buf_print(buffer* buf, uint8_t decimal)
+{
+    if (buf == NULL)
+    {
+        return;
+    }
+
+    for (uint32_t i = 0; i < buf->size; ++i)
+    {
+        if (decimal)
+        {
+            printf("%d ", buf->data[i]);
+        }
+        else
+        {
+            printf("0x%02x ", buf->data[i]);
+        }
+    }
+    printf("\n");
+}
 
 buf_status buf_alloc(buffer* buf, uint32_t size)
 {
