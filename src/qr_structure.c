@@ -30,6 +30,12 @@ qr_status qr_init_grouped_data(qr_grouped_data* grouped_data, qr_encode_ctx* ctx
         cur_group = &grouped_data->groups[i];
         num_of_blocks = g_ec_table[ctx->version].correction_levels[ctx->correction_level].groups[i].block_count;
 
+        if (num_of_blocks == 0)
+        {
+            cur_group->num_of_blocks = 0;
+            continue;
+        }
+
         cur_group->blocks = (qr_block*)malloc(num_of_blocks * sizeof(qr_block));
         
         if (cur_group->blocks == NULL)
