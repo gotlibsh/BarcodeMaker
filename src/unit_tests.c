@@ -180,12 +180,68 @@ void test_bitstring_len()
     assert(bs_len(NULL) == 0);
 }
 
+void test_bitstring_to_buffer()
+{
+    DECLARE_BS(1);
+    buffer buf = {0};
+
+    // positive flows
+    // set bitstring through bs_set_n to 10110111011110110000111111110000 (0xB77B0FF0)
+    // and compare to 4 bytes (0xB7, 0x7B, 0x0F, 0xF0)
+    assert(bs_alloc(p_bs_1, 32) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 1) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 1) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 2) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 1) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 3) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 1) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 4) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 1) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 2) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 4) == BS_OK);
+    assert(bs_set_n(p_bs_1, ON, 8) == BS_OK);
+    assert(bs_set_n(p_bs_1, OFF, 4) == BS_OK);
+    assert(bs_to_buffer(p_bs_1, &buf) == BS_OK);
+    assert(buf.size == 4);
+    assert(buf.data[0] == 0xB7);
+    assert(buf.data[1] == 0x7B);
+    assert(buf.data[2] == 0x0F);
+    assert(buf.data[3] == 0xF0);
+    bs_dealloc(p_bs_1);
+
+    // set bitstring through bs_put_number to 1010101000110011111111111001100100000001 (0xAA33FF9901)
+    // and compare to 5 bytes (0xAA, 0x33, 0xFF, 0x99, 0x01)
+    assert(bs_alloc(p_bs_1, 40) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0xAA, 8) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0x33, 8) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0xFF, 8) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0x99, 8) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0x01, 8) == BS_OK);
+    assert(bs_to_buffer(p_bs_1, &buf) == BS_OK);
+    assert(buf.size == 5);
+    assert(buf.data[0] == 0xAA);
+    assert(buf.data[1] == 0x33);
+    assert(buf.data[2] == 0xFF);
+    assert(buf.data[3] == 0x99);
+    assert(buf.data[4] == 0x01);
+    bs_dealloc(p_bs_1);
+
+    // test invalid parameters error
+    assert(bs_alloc(p_bs_1, 10) == BS_OK);
+    assert(bs_put_number(p_bs_1, 0b1010101010, 10) == BS_OK);
+    assert(bs_to_buffer(p_bs_1, &buf) == BS_INVALID_PARAMS);
+    assert(bs_to_buffer(NULL, &buf) == BS_INVALID_PARAMS);
+    assert(bs_to_buffer(p_bs_1, NULL) == BS_INVALID_PARAMS);
+    bs_dealloc(p_bs_1);
+}
+
 void test_bitstring()
 {
     test_bitstring_alloc();
     test_bitstring_set_n();
     test_bitstring_put_number();
     test_bitstring_len();
+    test_bitstring_to_buffer();
 }
 
 /*************************************

@@ -232,6 +232,13 @@ bs_status bs_to_buffer(bit_string* bs, buffer* buf)
         goto end;
     }
 
+    if (bs->_index % CHAR_BIT)
+    {
+        LOG_ERROR_INTERNAL("Failed to convert bitstring to buffer, bitstring size isn't a multiple of whole bytes");
+        status = BS_INVALID_PARAMS;
+        goto end;
+    }
+
     buf->data = bs->data;
     buf->size = bs->alloc_size;
 
