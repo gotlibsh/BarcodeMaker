@@ -27,7 +27,7 @@ bs_status bs_print(bit_string* bs)
 
     for (uint32_t i = 0; i < bs->_index; ++i)
     {
-        if (BITTEST(bs->data, i))
+        if (BITTEST_R(bs->data, i))
         {
             printf("1");
         }
@@ -84,11 +84,11 @@ bs_status bs_set_n(bit_string* bs, bit b, uint32_t len)
     {
         if (b == ON)
         {
-            BITSET(bs->data, bs->_index + i);
+            BITSET_R(bs->data, bs->_index + i);
         }
         else
         {
-            BITCLEAR(bs->data, bs->_index + i);
+            BITCLEAR_R(bs->data, bs->_index + i);
         }
     }
 
@@ -146,11 +146,11 @@ bs_status bs_put_number(bit_string* bs, uint64_t number, uint8_t fixed_size)
     {
         if (number & (1ULL << (number_size_bits - 1 - i)))
         {
-            BITSET(bs->data, bs->_index + i);
+            BITSET_R(bs->data, bs->_index + i);
         }
         else
         {
-            BITCLEAR(bs->data, bs->_index + i);
+            BITCLEAR_R(bs->data, bs->_index + i);
         }
     }
 
@@ -174,19 +174,19 @@ bs_status bs_alloc(bit_string* bs, uint32_t bit_count)
         goto end;
     }
 
-    bs->data = malloc(BITNSLOTS(bit_count));
+    bs->data = malloc(BITNSLOTS_R(bit_count));
 
     if (bs->data == NULL)
     {
-        LOG_ERROR_INTERNAL("Failed to allocate %d bytes for the required %d bits", BITNSLOTS(bit_count), bit_count);
+        LOG_ERROR_INTERNAL("Failed to allocate %d bytes for the required %d bits", BITNSLOTS_R(bit_count), bit_count);
         status = BS_ALLOC_FAILED;
         goto end;
     }
 
-    bs->alloc_size = BITNSLOTS(bit_count);
+    bs->alloc_size = BITNSLOTS_R(bit_count);
     bs->bit_size = bit_count;
     bs->_index = 0;
-    memset(bs->data, 0, BITNSLOTS(bit_count));
+    memset(bs->data, 0, BITNSLOTS_R(bit_count));
 
     status = BS_OK;
 

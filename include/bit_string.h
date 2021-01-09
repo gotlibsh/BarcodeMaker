@@ -13,6 +13,15 @@
 #define BITTEST(a, b)   ((a)[BITSLOT(b)] & BITMASK(b))
 #define BITNSLOTS(nb)   ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
+// bit utils for reverse access (index 0 means most significant bit)
+#define BITMASK_R(b)        (1 << (CHAR_BIT - 1 - ((b) % CHAR_BIT)))
+#define BITSLOT_R(b)        (BITSLOT(b))
+#define BITSET_R(a, b)      ((a)[BITSLOT_R(b)] |= BITMASK_R(b))
+#define BITCLEAR_R(a, b)    ((a)[BITSLOT_R(b)] &= ~BITMASK_R(b))
+#define BITTEST_R(a, b)     ((a)[BITSLOT_R(b)] & BITMASK_R(b))
+#define BITNSLOTS_R(nb)     ((nb + CHAR_BIT - 1) / CHAR_BIT)
+
+
 // General definitions
 typedef enum _bit
 {

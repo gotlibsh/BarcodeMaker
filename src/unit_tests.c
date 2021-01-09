@@ -37,7 +37,7 @@ bool bitstring_compare(bit_string* bs1, bit_string* bs2)
 
     for (uint32_t i = 0; i < bs1->_index; i++)
     {
-        if (BITTEST(bs1->data, i) != BITTEST(bs2->data, i))
+        if (BITTEST_R(bs1->data, i) != BITTEST_R(bs2->data, i))
         {
             return false;
         }
@@ -57,8 +57,8 @@ bool bitstring_compare2(bit_string* bs, char* str, uint16_t str_size)
 
     for (uint32_t i = 0; i < str_size; ++i)
     {
-        if (str[i] == '1' && !BITTEST(bs->data, i) ||
-            str[i] == '0' && BITTEST(bs->data, i))
+        if (str[i] == '1' && !BITTEST_R(bs->data, i) ||
+            str[i] == '0' && BITTEST_R(bs->data, i))
         {
             return false;
         }
