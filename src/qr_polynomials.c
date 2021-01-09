@@ -281,7 +281,7 @@ p_status p_to_buffer(poly_t* p, buffer* dest)
         goto end;
     }
 
-    if (dest->size < TERMS(p))
+    if (buf_size(dest) < TERMS(p))
     {
         LOG_ERROR_INTERNAL("Failed to copy polynomial to buffer due to insufficient buffer size, buffer-size %d polynomial-size %d", dest->size, TERMS(p));
         status = P_INVALID_PARAMS;

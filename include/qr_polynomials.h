@@ -12,7 +12,7 @@ typedef uint8_t bool;
 #define true    (1)
 #define false   (0)
 
-typedef enum _pol_status
+typedef enum _p_status
 {
     P_OK = 0,
     P_GENERAL_ERROR,

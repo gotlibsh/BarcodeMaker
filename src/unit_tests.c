@@ -684,6 +684,86 @@ void test_poly_create()
     assert(p_create(&p, true, 0) == P_INVALID_PARAMS);
 }
 
+void test_poly_create_from_buffer()
+{
+    poly_t p = {0};
+    buffer buf = {0};
+
+    // positive tests
+    assert(buf_alloc(&buf, 5) == BUF_OK);
+    assert(buffer_set(&buf, buf_size(&buf), 0, 0, 0, 0, 0));
+    assert(p_create_from_buffer(&p, &buf) == P_OK);
+    assert(TERMS(&p) == buf_size(&buf));
+    assert(E(&p, 0) == 0);
+    assert(E(&p, 1) == 0);
+    assert(E(&p, 2) == 0);
+    assert(E(&p, 3) == 0);
+    assert(E(&p, 4) == 0);
+    buf_dealloc(&buf); p_del(&p);
+
+    assert(buf_alloc(&buf, 5) == BUF_OK);
+    assert(buffer_set(&buf, 5, 10, 20, 30, 40, 50));
+    assert(p_create_from_buffer(&p, &buf) == P_OK);
+    assert(TERMS(&p) == buf_size(&buf));
+    assert(E(&p, 0) == 10);
+    assert(E(&p, 1) == 20);
+    assert(E(&p, 2) == 30);
+    assert(E(&p, 3) == 40);
+    assert(E(&p, 4) == 50);
+    buf_dealloc(&buf); p_del(&p);
+
+    // test invalid parameters error
+    assert(p_create_from_buffer(&p, &buf) == P_INVALID_PARAMS); // buffer size iz 0
+    assert(buf_alloc(&buf, 5) == BUF_OK);
+    assert(p_create_from_buffer(NULL, &buf) == P_INVALID_PARAMS);
+    assert(p_create_from_buffer(&p, NULL) == P_INVALID_PARAMS);
+    buf_dealloc(&buf);
+}
+
+void test_poly_to_buffer()
+{
+    poly_t p = {0};
+    buffer buf = {0};
+
+    // positive tests
+    assert(p_create(&p, true, 10) == P_OK);
+    assert(buf_alloc(&buf, TERMS(&p)) == BUF_OK);
+    assert(p_to_buffer(&p, &buf) == P_OK);
+    assert(buffer_zero(&buf, 0));
+    p_del(&p); buf_dealloc(&buf);
+
+    assert(p_create(&p, false, 7, 11, 12, 13, 14, 15, 16, 17) == P_OK);
+    assert(buf_alloc(&buf, TERMS(&p)) == BUF_OK);
+    assert(buffer_zero(&buf, 0));
+    assert(p_to_buffer(&p, &buf) == P_OK);
+    assert(buf.data[0] == 11);
+    assert(buf.data[1] == 12);
+    assert(buf.data[2] == 13);
+    assert(buf.data[3] == 14);
+    assert(buf.data[4] == 15);
+    assert(buf.data[5] == 16);
+    assert(buf.data[6] == 17);
+    p_del(&p); buf_dealloc(&buf);
+
+    assert(p_create(&p, false, 3, 1, 2, 3) == BUF_OK);
+    assert(buf_alloc(&buf, TERMS(&p) + 1) == BUF_OK);
+    assert(p_to_buffer(&p, &buf) == P_OK);
+    assert(buf_size(&buf) == TERMS(&p) + 1);
+    assert(buf.data[0] == 1);
+    assert(buf.data[1] == 2);
+    assert(buf.data[2] == 3);
+    assert(buf.data[3] == 0);
+    p_del(&p); buf_dealloc(&buf);
+
+    // test invalid parameters error
+    assert(p_to_buffer(NULL, &buf) == P_INVALID_PARAMS);
+    assert(p_to_buffer(&p, NULL) == P_INVALID_PARAMS);
+    assert(p_create(&p, true, 5) == P_OK);
+    assert(buf_alloc(&buf, TERMS(&p)-1) == BUF_OK);
+    assert(p_to_buffer(&p, &buf) == P_INVALID_PARAMS);
+    p_del(&p); buf_dealloc(&buf);
+}
+
 void test_poly_copy()
 {
     poly_t src = {0}, dest = {0};
@@ -1001,6 +1081,8 @@ void test_poly_get_generator()
 void test_polynomials()
 {
     test_poly_create();
+    test_poly_create_from_buffer();
+    test_poly_to_buffer();
     test_poly_copy();
     test_poly_multiply();
     test_poly_multiply_in_place();
