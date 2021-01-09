@@ -258,6 +258,34 @@ void qr_deinit_ctx(qr_encode_ctx* ctx)
     memset(ctx, 0, sizeof(*ctx));
 }
 
+qr_status qr_convert_data_to_buffer(qr_encode_ctx* ctx, buffer* buf)
+{
+    qr_status status = QR_GENERAL_ERROR;
+    bs_status bs_status = BS_GENERAL_ERROR;
+
+
+    if (ctx == NULL || buf == NULL)
+    {
+        LOG_ERROR("Invalid parameters, ctx 0x%08llx, buf 0x%08llx", (uint64_t)ctx, (uint64_t)buf);
+        status = QR_INVALID_PARAMS;
+        goto end;
+    }
+
+    bs_status = bs_to_buffer(&ctx->data, buf);
+
+    if (bs_status != BS_OK)
+    {
+        LOG_ERROR("Failed to convert encoding context data to buffer with status %d", bs_status);
+        status = QR_GENERAL_ERROR;
+        goto end;
+    }
+
+    status = QR_OK;
+
+end:
+    return status;
+}
+
 static uint8_t _qr_ascii_to_numeric(char c)
 {
     if (c >= '0' && c <= '9')

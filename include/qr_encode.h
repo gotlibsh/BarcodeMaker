@@ -10,6 +10,7 @@ qr_status qr_add_mode_indicator(qr_encode_ctx* ctx);
 qr_status qr_add_character_count_indicator(qr_encode_ctx* ctx);
 qr_status qr_init_ctx(qr_encode_ctx* ctx, qr_correction_level correction_level, qr_encoding_mode mode, uint16_t data_size);
 void qr_deinit_ctx(qr_encode_ctx* ctx);
+qr_status qr_convert_data_to_buffer(qr_encode_ctx* ctx, buffer* buf);
 qr_status qr_encode_mode_numeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
 qr_status qr_encode_mode_alphanumeric(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
 qr_status qr_encode_mode_byte(qr_encode_ctx* ctx, uint8_t* data, uint16_t data_size);
