@@ -17,4 +17,6 @@ typedef enum _buf_status
     BUF_ALLOC_FAILED,
 } buf_status;
 
+buf_status buf_alloc(buffer* buf, uint32_t size);
+
 #endif
