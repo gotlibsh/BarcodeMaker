@@ -257,6 +257,7 @@ p_status p_create_from_buffer(poly_t* p, buffer* src)
         goto end;
     }
 
+    g_allocs++;
     cpy_status = memcpy_s(p->coef, src->size * sizeof(int32_t), src->data, src->size);
 
     if (cpy_status != 0)
