@@ -47,6 +47,17 @@ void buf_dealloc(buffer* buf)
     buf->size = 0;
 }
 
+uint32_t buf_size(buffer* buf)
+{
+    if (buf == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameter, null buffer");
+        return 0;
+    }
+
+    return buf->size;
+}
+
 buf_status buf_copy(buffer* dest, buffer* src, uint32_t count)
 {
     return buf_copy_ex(dest, 0, src, 0, count);
