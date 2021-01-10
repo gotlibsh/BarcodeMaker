@@ -21,6 +21,7 @@ typedef struct _qr_grouped_data
     qr_group groups[EC_MAX_GROUP_NUM];
 } qr_grouped_data;
 
+uint32_t qr_calc_final_bs_size(qr_grouped_data* grouped_data);
 qr_status qr_init_grouped_data(qr_grouped_data* grouped_data, qr_encode_ctx* ctx);
 qr_status qr_copy_data_into_grouped_data(qr_grouped_data* grouped_data, buffer* src);
 qr_status qr_generate_error_correction(qr_grouped_data* grouped_data);

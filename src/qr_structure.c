@@ -7,6 +7,34 @@
 
 extern qr_ec_version_entry g_ec_table[];
 
+uint32_t qr_calc_final_bs_size(qr_grouped_data* grouped_data)
+{
+    uint32_t res_in_bytes = 0;
+
+
+    if (grouped_data == NULL)
+    {
+        LOG_ERROR("Invalid parameter, null pointer");
+        return 0;
+    }
+
+    // sum total size of data codewords + error correction codewords
+    for (uint32_t i = 0; i < EC_MAX_GROUP_NUM; ++i)
+    {
+        for (uint32_t j = 0; j < grouped_data->groups[i].num_of_blocks; ++j)
+        {
+            res_in_bytes += buf_size(&grouped_data->groups[i].blocks[j].data);
+            res_in_bytes += buf_size(&grouped_data->groups[i].blocks[j].ec);
+        }
+    }
+
+    // add space for the remainder bits
+    res_in_bytes++;
+
+    // multiply by bits-per-byte to comply with bitstring sizes
+    return res_in_bytes * CHAR_BIT;
+}
+
 qr_status qr_init_grouped_data(qr_grouped_data* grouped_data, qr_encode_ctx* ctx)
 {
     qr_status   status          = QR_GENERAL_ERROR;
@@ -194,3 +222,4 @@ qr_status qr_generate_error_correction(qr_grouped_data* grouped_data)
 end:
     return status;
 }
+
