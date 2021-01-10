@@ -950,8 +950,10 @@ void test_poly_add()
     // test adding a polynomial to itself using the same polynomial
     assert(p_create(&p, false, 3, 1, 2, 3) == P_OK);
     assert(p_add(&p, &p, &res) == P_OK);
-    assert(TERMS(&res) == 1);
+    assert(TERMS(&res) == 3);
     assert(E(&res, 0) == 0);
+    assert(E(&res, 1) == 0);
+    assert(E(&res, 2) == 0);
     p_del(&p); p_del(&res);
 
     // test invalid parameter error
@@ -999,8 +1001,11 @@ void test_poly_add_in_place()
     // test adding a polynomial to itself using the same polynomial
     assert(p_create(&res, false, 4, 1, 2, 3, 4) == P_OK);
     assert(p_add_in_place(&res, &res) == P_OK);
-    assert(TERMS(&res) == 1);
+    assert(TERMS(&res) == 4);
     assert(E(&res, 0) == 0);
+    assert(E(&res, 1) == 0);
+    assert(E(&res, 2) == 0);
+    assert(E(&res, 3) == 0);
     p_del(&res);
 
     // test invalid parameters error
@@ -1029,6 +1034,20 @@ void test_poly_div()
     assert(E(&res, 7) == 226);
     assert(E(&res, 8) == 93);
     assert(E(&res, 9) == 23);
+    p_del(&dividend); p_del(&divisor); p_del(&res);
+
+    // in this test, in the first devision step the XOR results in 2 leading terms of 0 and only the first term should be discarded
+    assert(p_create(&dividend, false, 19, 32, 91, 11, 120, 209, 114, 220, 77, 67, 64, 236, 17, 236, 17, 236, 17, 236, 17, 236) == P_OK);
+    assert(p_get_generator_polynomial(&divisor, 7) == P_OK);
+    assert(p_div(&dividend, &divisor, &res) == P_OK);
+    assert(TERMS(&res) == 7);
+    assert(E(&res, 0) == 149);
+    assert(E(&res, 1) == 80);
+    assert(E(&res, 2) == 231);
+    assert(E(&res, 3) == 54);
+    assert(E(&res, 4) == 182);
+    assert(E(&res, 5) == 166);
+    assert(E(&res, 6) == 208);
     p_del(&dividend); p_del(&divisor); p_del(&res);
 
     // test invalid parameters error

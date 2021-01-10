@@ -239,7 +239,7 @@ p_status p_create_from_buffer(poly_t* p, buffer* src)
         goto end;
     }
 
-    if (src->size == 0)
+    if (buf_size(src) == 0)
     {
         LOG_ERROR_INTERNAL("Failed to create a polynomial, invalid size %d", src->size);
         status = P_INVALID_PARAMS;
@@ -346,6 +346,39 @@ p_status p_copy(poly_t* dest, poly_t* src)
 
     g_allocs++;
     memcpy(dest->coef, src->coef, TERMS(src) * sizeof(int32_t));
+
+    status = P_OK;
+
+end:
+    return status;
+}
+
+p_status p_discard_lead_term(poly_t* p)
+{
+    p_status status = P_GENERAL_ERROR;
+
+
+    if (p == NULL)
+    {
+        LOG_ERROR_INTERNAL("Invalid parameters, null polynomial");
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    if (TERMS(p) == 0)
+    {
+        LOG_ERROR_INTERNAL("Failed to discard polynomial lead term, polynomial has 0 terms");
+        status = P_INVALID_PARAMS;
+        goto end;
+    }
+
+    for (uint32_t i = 0; i < TERMS(p) - 1; ++i)
+    {
+        p->coef[i] = p->coef[i+1];
+    }
+
+    p->coef[TERMS(p)-1] = 0;
+    p->degree--;
 
     status = P_OK;
 
@@ -467,7 +500,6 @@ p_status p_add(poly_t* p, poly_t* q, poly_t* out)
     p_status status             = P_GENERAL_ERROR;
     uint16_t final_terms_count  = 0;
     uint16_t empty_lead_terms   = 0;
-    poly_t   res                = {0};
     poly_t*  p_min              = NULL;
     poly_t*  p_max              = NULL;
     uint16_t min_size, max_size;
@@ -502,7 +534,7 @@ p_status p_add(poly_t* p, poly_t* q, poly_t* out)
     min_size = min(TERMS(p), TERMS(q));
     max_size = max(TERMS(p), TERMS(q));
 
-    status = p_create(&res, true, max_size);
+    status = p_create(out, true, max_size);
 
     if (status != P_OK)
     {
@@ -513,54 +545,18 @@ p_status p_add(poly_t* p, poly_t* q, poly_t* out)
 
     for (max_idx = 0; max_idx < max_size - min_size; ++max_idx)
     {
-        res.coef[max_idx] = p_max->coef[max_idx];
+        out->coef[max_idx] = p_max->coef[max_idx];
     }
 
     for (min_idx = 0; min_idx < min_size; ++min_idx, ++max_idx)
     {
-        res.coef[max_idx] = p_max->coef[max_idx] ^ p_min->coef[min_idx];
+        out->coef[max_idx] = p_max->coef[max_idx] ^ p_min->coef[min_idx];
     }
 
-    final_terms_count = TERMS(&res);
-
-    for (; empty_lead_terms < TERMS(&res); ++empty_lead_terms)
-    {
-        if (res.coef[empty_lead_terms] != 0)
-        {
-            break;
-        }
-    }
-
-    final_terms_count -= empty_lead_terms;
-
-    if (final_terms_count == 0)
-    {
-        // in case the final result is the zero polynomial we return a polynomial with degree 0
-        // and a single coefficient of value 0
-        status = p_create(out, true, final_terms_count + 1);
-    }
-    else
-    {
-        status = p_create(out, true, final_terms_count);
-    }
-
-    if (status != P_OK)
-    {
-        LOG_ERROR_INTERNAL("Failed to create the out polynomial of size %d with status %d", final_terms_count, status);
-        status = P_GENERAL_ERROR;
-        goto end;
-    }
-
-    for (uint16_t i = 0; i < final_terms_count; ++i)
-    {
-        out->coef[i] = res.coef[i + empty_lead_terms];
-    }    
 
     status = P_OK;
 
 end:
-    p_del(&res);
-
     return status;
 }
 
@@ -766,7 +762,7 @@ p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
     }
 
     for (uint16_t i = 0; i < div_steps; ++i)
-    {        
+    {
         status = p_create(&lead_term, false, 1, E(&step_final_res, 0));
 
         if (status != P_OK)
@@ -774,6 +770,13 @@ p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
             LOG_ERROR_INTERNAL("Failed to create a polynomial for the lead term with status %d", status);
             status = P_GENERAL_ERROR;
             goto end;
+        }
+
+        // in case the leading term is 0, we don't want to nullify the generator
+        // so we multiply it by 1 instead so that it remains the same
+        if (E(&lead_term, 0) == 0)
+        {
+            E(&lead_term, 0) = 1;
         }
 
         status = p_mul(divisor, &lead_term, &step_mul_res);
@@ -790,6 +793,15 @@ p_status p_div(poly_t* dividend, poly_t* divisor, poly_t* out)
         if (status != P_OK)
         {
             LOG_ERROR_INTERNAL("Failed to add remainder polynomial to result of previous step with status %d", status);
+            status = P_GENERAL_ERROR;
+            goto end;
+        }
+
+        status = p_discard_lead_term(&step_final_res);
+
+        if (status != P_OK)
+        {
+            LOG_ERROR_INTERNAL("Failed to discard lead term of the result polynomial with status %d", status);
             status = P_GENERAL_ERROR;
             goto end;
         }

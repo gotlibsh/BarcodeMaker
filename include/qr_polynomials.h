@@ -34,6 +34,7 @@ p_status p_create_from_buffer(poly_t* p, buffer* src);
 p_status p_to_buffer(poly_t* p, buffer* dest);
 void p_del(poly_t* p);
 p_status p_copy(poly_t* dest, poly_t* src);
+p_status p_discard_lead_term(poly_t* p);
 p_status p_mul(poly_t* p, poly_t* q, poly_t* pq);
 p_status p_mul_in_place(poly_t* out, poly_t* multiplier);
 p_status p_add(poly_t* p, poly_t* q, poly_t* out);
