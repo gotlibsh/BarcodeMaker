@@ -241,24 +241,24 @@ p_status p_create_from_buffer(poly_t* p, buffer* src)
 
     if (buf_size(src) == 0)
     {
-        LOG_ERROR_INTERNAL("Failed to create a polynomial, invalid size %d", src->size);
+        LOG_ERROR_INTERNAL("Failed to create a polynomial, invalid size %d", buf_size(src));
         status = P_INVALID_PARAMS;
         goto end;
     }
 
-    p->coef = (int32_t*)malloc(src->size * sizeof(int32_t));
-    p->degree = src->size - 1;
+    p->coef = (int32_t*)malloc(buf_size(src) * sizeof(int32_t));
+    p->degree = buf_size(src) - 1;
 
     if (p->coef == NULL)
     {
-        LOG_ERROR_INTERNAL("Failed to allocate memory for a new polynomial of size %d", src->size);
+        LOG_ERROR_INTERNAL("Failed to allocate memory for a new polynomial of size %d", buf_size(src));
         status = P_OUT_OF_MEMORY;
         goto end;
     }
 
     g_allocs++;
 
-    for (uint32_t i = 0; i < src->size; ++i)
+    for (uint32_t i = 0; i < buf_size(src); ++i)
     {
         p->coef[i] = src->data[i];
     }
@@ -283,7 +283,7 @@ p_status p_to_buffer(poly_t* p, buffer* dest)
 
     if (buf_size(dest) < TERMS(p))
     {
-        LOG_ERROR_INTERNAL("Failed to copy polynomial to buffer due to insufficient buffer size, buffer-size %d polynomial-size %d", dest->size, TERMS(p));
+        LOG_ERROR_INTERNAL("Failed to copy polynomial to buffer due to insufficient buffer size, buffer-size %d polynomial-size %d", buf_size(dest), TERMS(p));
         status = P_INVALID_PARAMS;
         goto end;
     }
