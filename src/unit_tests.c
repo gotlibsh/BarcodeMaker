@@ -803,6 +803,30 @@ void test_poly_copy()
     assert(p_copy(&dest, NULL) == P_INVALID_PARAMS);
 }
 
+void test_poly_discard_lead_term()
+{
+    poly_t p = {0};
+
+    // positive flows
+    assert(p_create(&p, false, 6, 6, 5, 4, 3, 2, 1) == P_OK);
+    assert(DEGREE(&p) == 5);
+    assert(E(&p, 0) == 6);
+    assert(p_discard_lead_term(&p) == P_OK);
+    assert(DEGREE(&p) == 4);
+    assert(E(&p, 0) == 5);
+    p_del(&p);
+
+    assert(p_create(&p, false, 1, 1) == P_OK);
+    assert(DEGREE(&p) == 0);
+    assert(E(&p, 0) == 1);
+    assert(p_discard_lead_term(&p) == P_OK);
+    assert(TERMS(&p) == 0);
+    p_del(&p);
+
+    // test invalid parameters error
+    assert(p_discard_lead_term(NULL) == P_INVALID_PARAMS);
+}
+
 void test_poly_multiply()
 {
     poly_t p = {0}, q = {0}, pq = {0};
@@ -1103,6 +1127,7 @@ void test_polynomials()
     test_poly_create_from_buffer();
     test_poly_to_buffer();
     test_poly_copy();
+    test_poly_discard_lead_term();
     test_poly_multiply();
     test_poly_multiply_in_place();
     test_poly_add();
